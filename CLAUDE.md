@@ -32,6 +32,17 @@ firmware (halcyon-corne's hud_console.c, layer_state_set_user hook)
 
 `src/halcyon_hud/data/mak3r_layers.json` is **generated**, not hand-edited — see `scripts/generate_layout_data.py` and the README's "Regenerating the keymap/color data" section. It's sourced from `halcyon-corne`'s own `.vil` export and `rgb_layers.csv`, converted with the same logic as that repo's `generate_keymap_from_vil.py`/`generate_ledmap.py` (kept as a separate copy here rather than a shared dependency between repos, since they have different release cadences).
 
+## macOS focus-stealing fix
+
+Showing the HUD used to steal keyboard focus from whatever app the user was typing in, every time a layer key was held — confirmed via hardware testing to be a real, severe bug (typing broke as soon as any layer key was pressed). This took a long diagnostic chain to pin down, worth recording so it isn't rediscovered the hard way:
+
+- Every Qt-level fix (`Qt.WindowDoesNotAcceptFocus`, `Qt.WA_ShowWithoutActivating`, `Qt.ToolTip` window type, `NSApplicationActivationPolicyAccessory` to hide the Dock icon) reduced symptoms but didn't eliminate them.
+- Direct AppKit-level polling (`NSRunningApplication.isActive()` / `NSWorkspace.frontmostApplication()`, not just Qt's own `isActiveWindow()`, which turned out to be unreliable) proved the *application*, not just the window, was being activated by macOS on every `show()`.
+- Bypassing Qt's `show()`/`raise_()` entirely for the real `NSWindow`'s `orderFront_()` (via PyObjC, `hud_window.py`'s `_native_ns_window()`/`_native_show()`/`_native_hide()`) did **not** fix it either — even though the window's `canBecomeKeyWindow` is `False` and it never becomes key, `orderFront_()` still activates the owning app as an AppKit side effect with no documented way to suppress it (confirmed `NSWindowStyleMaskNonactivatingPanel` doesn't prevent this).
+- **The actual fix**: `_native_show()` captures whichever `NSRunningApplication` was frontmost immediately before calling `orderFront_()`, then immediately calls `.activateWithOptions_(NSApplicationActivateIgnoringOtherApps)` on that captured app right after. This lets the brief activation happen and then hands it straight back, leaving the HUD window visible while keyboard focus stays with whatever the user was actually using.
+
+If this needs revisiting (e.g. porting to Windows/Linux, where this whole mechanism doesn't apply): the fix is entirely inside `_native_show()` in `hud_window.py`; `_native_hide()`/`orderOut_()` never had this problem since hiding a window doesn't activate anything.
+
 ## Known gaps (see README's Status section for the fuller list)
 
 - `pyproject.toml`'s Briefcase config is a best-effort scaffold, never actually run through `briefcase build`. Expect to need fixes when packaging is actually attempted.
