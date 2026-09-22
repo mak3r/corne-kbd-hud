@@ -43,9 +43,18 @@ Showing the HUD used to steal keyboard focus from whatever app the user was typi
 
 If this needs revisiting (e.g. porting to Windows/Linux, where this whole mechanism doesn't apply): the fix is entirely inside `_native_show()` in `hud_window.py`; `_native_hide()`/`orderOut_()` never had this problem since hiding a window doesn't activate anything.
 
+## Packaging notes
+
+`briefcase build` (macOS) is verified working (Briefcase 0.4.5, real launchable `.app` produced and smoke-tested). Two gotchas hit getting there, worth knowing if this breaks again:
+
+- **License**: Briefcase 0.4.5 requires a PEP 639 license declaration (`license = "Apache-2.0"` + `license-files = ["LICENSE"]` under `[tool.briefcase]`) or the build refuses to start at all. This repo uses Apache-2.0 (see `LICENSE`, reused from `mak3r/claude-scaffolding`).
+- **`min_os_version`**: PySide6's macOS wheel (6.11.2+) is tagged `macosx_13_0`. Briefcase's default `min_os_version` is `"11.0"`, which makes pip reject that wheel as incompatible with a confusing "no matching distribution" error rather than a clear version-mismatch message. Fixed by setting `min_os_version = "13.0"` under `[tool.briefcase.app.halcyon_hud.macOS]`.
+- **Stale environment gotcha**: after a failed `briefcase build` (e.g. from the two issues above), a subsequent `briefcase build` can silently skip re-running "Installing requirements" and repackage the broken/incomplete environment as if it succeeded. If a build finishes suspiciously fast right after a prior failure, verify the dependency actually landed (e.g. `find build -iname '*pyside*'`) rather than trusting exit status alone; `rm -rf build .briefcase` forces a clean re-create.
+
+`briefcase package`/code signing/notarization are still untested — see README's Status/not-built-yet list.
+
 ## Known gaps (see README's Status section for the fuller list)
 
-- `pyproject.toml`'s Briefcase config is a best-effort scaffold, never actually run through `briefcase build`. Expect to need fixes when packaging is actually attempted.
 - PySide6's event loop swallows `SIGINT` by default — `app.py` has a small `QTimer` workaround (periodic no-op lets Python's own signal handler run). This is a known PySide6/PyQt quirk, not a bug to "fix" differently.
 - Only tested on macOS so far.
 

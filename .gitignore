@@ -13,3 +13,5 @@ linux/
 iOS/
 android/
 web/
+.briefcase/
+logs/

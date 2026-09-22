@@ -17,10 +17,10 @@ firmware (layer_state_set_user)
 
 ## Status
 
-**Working, not yet packaged.** The app runs and has been tested against real hardware (layer changes render correctly, reconnects cleanly if the keyboard is unplugged/replugged). Focus-stealing on macOS (the HUD grabbing keyboard input away from whatever app you were typing in) is fixed and confirmed on hardware — see `CLAUDE.md`'s "macOS focus-stealing fix" for the mechanism. The tray icon and "Pin HUD Visible" toggle are also confirmed working. The `pyproject.toml` Briefcase config is a best-effort scaffold — it hasn't been run through an actual `briefcase build` yet, so treat it as a starting point to fix up, not a verified packaging pipeline.
+**Working, `briefcase build` verified on macOS.** The app runs and has been tested against real hardware (layer changes render correctly, reconnects cleanly if the keyboard is unplugged/replugged). Focus-stealing on macOS (the HUD grabbing keyboard input away from whatever app you were typing in) is fixed and confirmed on hardware — see `CLAUDE.md`'s "macOS focus-stealing fix" for the mechanism. The tray icon and "Pin HUD Visible" toggle are also confirmed working. `briefcase build` produces a real, launchable `.app` bundle (see `CLAUDE.md`'s "Packaging notes" for the `min_os_version`/license gotchas this needed) — `briefcase package`/code signing/notarization is still untested.
 
 What's not built yet (see `halcyon-corne`'s original HUD plan for the fuller phase list):
-- Packaging/code signing (macOS Input Monitoring permission handling in particular needs real testing)
+- `briefcase package`, code signing, and notarization (macOS Input Monitoring permission handling in a packaged build also needs real testing)
 - Per-key press flashes (only layer changes are shown right now, not individual keypresses)
 - Resizing the HUD (currently a fixed size computed from the layout)
 - Moving the HUD (currently fixed at the bottom-right corner of the screen)
