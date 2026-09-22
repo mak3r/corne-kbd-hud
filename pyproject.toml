@@ -1,0 +1,38 @@
+[build-system]
+requires = ["briefcase"]
+
+[tool.briefcase]
+project_name = "Halcyon Corne HUD"
+bundle = "com.mak3r"
+version = "0.1.0"
+url = "https://github.com/mak3r/halcyon-corne-hud"
+author = "Mark Abrams"
+# No license chosen yet -- add a LICENSE file and license.file = "LICENSE"
+# here when ready to publish/distribute this.
+
+[tool.briefcase.app.halcyon_hud]
+formal_name = "Halcyon Corne HUD"
+description = "A real-time keymap layer viewer for the Halcyon Corne, reading layer state over USB HID."
+sources = ["src/halcyon_hud"]
+requires = [
+    "PySide6>=6.11",
+    "hid>=1.0",
+]
+
+[tool.briefcase.app.halcyon_hud.macOS]
+requires = [
+    "PySide6>=6.11",
+    "hid>=1.0",
+]
+
+[tool.briefcase.app.halcyon_hud.windows]
+requires = [
+    "PySide6>=6.11",
+    "hid>=1.0",
+]
+
+[tool.briefcase.app.halcyon_hud.linux]
+requires = [
+    "PySide6>=6.11",
+    "hid>=1.0",
+]

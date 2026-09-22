@@ -1,0 +1,4066 @@
+[
+  {
+    "name": "Base",
+    "keys": [
+      {
+        "r": 0,
+        "c": 0,
+        "kc": "KC_TAB",
+        "label": "Tab",
+        "modtap": false,
+        "hsv": [
+          152,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 0,
+        "c": 1,
+        "kc": "KC_Q",
+        "label": "Q",
+        "modtap": false,
+        "hsv": [
+          74,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 0,
+        "c": 2,
+        "kc": "KC_W",
+        "label": "W",
+        "modtap": false,
+        "hsv": [
+          74,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 0,
+        "c": 3,
+        "kc": "KC_E",
+        "label": "E",
+        "modtap": false,
+        "hsv": [
+          74,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 0,
+        "c": 4,
+        "kc": "KC_R",
+        "label": "R",
+        "modtap": false,
+        "hsv": [
+          74,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 0,
+        "c": 5,
+        "kc": "KC_T",
+        "label": "T",
+        "modtap": false,
+        "hsv": [
+          74,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 5,
+        "c": 5,
+        "kc": "KC_Y",
+        "label": "Y",
+        "modtap": false,
+        "hsv": [
+          74,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 5,
+        "c": 4,
+        "kc": "KC_U",
+        "label": "U",
+        "modtap": false,
+        "hsv": [
+          74,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 5,
+        "c": 3,
+        "kc": "KC_I",
+        "label": "I",
+        "modtap": false,
+        "hsv": [
+          74,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 5,
+        "c": 2,
+        "kc": "KC_O",
+        "label": "O",
+        "modtap": false,
+        "hsv": [
+          74,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 5,
+        "c": 1,
+        "kc": "KC_P",
+        "label": "P",
+        "modtap": false,
+        "hsv": [
+          74,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 5,
+        "c": 0,
+        "kc": "KC_BSPC",
+        "label": "Bksp",
+        "modtap": false,
+        "hsv": [
+          152,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 1,
+        "c": 0,
+        "kc": "KC_ESCAPE",
+        "label": "Esc",
+        "modtap": false,
+        "hsv": [
+          152,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 1,
+        "c": 1,
+        "kc": "KC_A",
+        "label": "A",
+        "modtap": false,
+        "hsv": [
+          74,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 1,
+        "c": 2,
+        "kc": "KC_S",
+        "label": "S",
+        "modtap": false,
+        "hsv": [
+          74,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 1,
+        "c": 3,
+        "kc": "LCTL_T(KC_D)",
+        "label": "D",
+        "modtap": true,
+        "hsv": [
+          74,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 1,
+        "c": 4,
+        "kc": "KC_F",
+        "label": "F",
+        "modtap": false,
+        "hsv": [
+          188,
+          128,
+          255
+        ]
+      },
+      {
+        "r": 1,
+        "c": 5,
+        "kc": "KC_G",
+        "label": "G",
+        "modtap": false,
+        "hsv": [
+          74,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 6,
+        "c": 5,
+        "kc": "KC_H",
+        "label": "H",
+        "modtap": false,
+        "hsv": [
+          74,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 6,
+        "c": 4,
+        "kc": "KC_J",
+        "label": "J",
+        "modtap": false,
+        "hsv": [
+          188,
+          128,
+          255
+        ]
+      },
+      {
+        "r": 6,
+        "c": 3,
+        "kc": "RCTL_T(KC_K)",
+        "label": "K",
+        "modtap": true,
+        "hsv": [
+          74,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 6,
+        "c": 2,
+        "kc": "KC_L",
+        "label": "L",
+        "modtap": false,
+        "hsv": [
+          74,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 6,
+        "c": 1,
+        "kc": "KC_SCLN",
+        "label": ";",
+        "modtap": false,
+        "hsv": [
+          74,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 6,
+        "c": 0,
+        "kc": "KC_QUOTE",
+        "label": "'",
+        "modtap": false,
+        "hsv": [
+          152,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 2,
+        "c": 0,
+        "kc": "KC_LSFT",
+        "label": "\u21e7",
+        "modtap": false,
+        "hsv": [
+          152,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 2,
+        "c": 1,
+        "kc": "KC_Z",
+        "label": "Z",
+        "modtap": false,
+        "hsv": [
+          74,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 2,
+        "c": 2,
+        "kc": "KC_X",
+        "label": "X",
+        "modtap": false,
+        "hsv": [
+          74,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 2,
+        "c": 3,
+        "kc": "KC_C",
+        "label": "C",
+        "modtap": false,
+        "hsv": [
+          74,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 2,
+        "c": 4,
+        "kc": "KC_V",
+        "label": "V",
+        "modtap": false,
+        "hsv": [
+          74,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 2,
+        "c": 5,
+        "kc": "KC_B",
+        "label": "B",
+        "modtap": false,
+        "hsv": [
+          74,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 7,
+        "c": 5,
+        "kc": "KC_N",
+        "label": "N",
+        "modtap": false,
+        "hsv": [
+          74,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 7,
+        "c": 4,
+        "kc": "KC_M",
+        "label": "M",
+        "modtap": false,
+        "hsv": [
+          74,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 7,
+        "c": 3,
+        "kc": "KC_COMMA",
+        "label": ",",
+        "modtap": false,
+        "hsv": [
+          74,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 7,
+        "c": 2,
+        "kc": "KC_DOT",
+        "label": ".",
+        "modtap": false,
+        "hsv": [
+          74,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 7,
+        "c": 1,
+        "kc": "KC_SLASH",
+        "label": "/",
+        "modtap": false,
+        "hsv": [
+          74,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 7,
+        "c": 0,
+        "kc": "KC_RSFT",
+        "label": "\u21e7",
+        "modtap": false,
+        "hsv": [
+          152,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 3,
+        "c": 3,
+        "kc": "KC_LGUI",
+        "label": "\u2318",
+        "modtap": false,
+        "hsv": [
+          188,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 3,
+        "c": 4,
+        "kc": "MO(1)",
+        "label": "MO1",
+        "modtap": false,
+        "hsv": [
+          188,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 3,
+        "c": 5,
+        "kc": "KC_SPACE",
+        "label": "Space",
+        "modtap": false,
+        "hsv": [
+          188,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 8,
+        "c": 5,
+        "kc": "KC_ENTER",
+        "label": "Enter",
+        "modtap": false,
+        "hsv": [
+          188,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 8,
+        "c": 4,
+        "kc": "MO(2)",
+        "label": "MO2",
+        "modtap": false,
+        "hsv": [
+          188,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 8,
+        "c": 3,
+        "kc": "KC_RGUI",
+        "label": "\u2318",
+        "modtap": false,
+        "hsv": [
+          188,
+          255,
+          255
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Symbols",
+    "keys": [
+      {
+        "r": 0,
+        "c": 0,
+        "kc": "KC_GRAVE",
+        "label": "`",
+        "modtap": false,
+        "hsv": [
+          152,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 0,
+        "c": 1,
+        "kc": "KC_KP_1",
+        "label": "1",
+        "modtap": false,
+        "hsv": [
+          74,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 0,
+        "c": 2,
+        "kc": "KC_KP_2",
+        "label": "2",
+        "modtap": false,
+        "hsv": [
+          74,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 0,
+        "c": 3,
+        "kc": "KC_KP_3",
+        "label": "3",
+        "modtap": false,
+        "hsv": [
+          74,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 0,
+        "c": 4,
+        "kc": "KC_KP_4",
+        "label": "4",
+        "modtap": false,
+        "hsv": [
+          74,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 0,
+        "c": 5,
+        "kc": "KC_KP_5",
+        "label": "5",
+        "modtap": false,
+        "hsv": [
+          74,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 5,
+        "c": 5,
+        "kc": "KC_KP_6",
+        "label": "6",
+        "modtap": false,
+        "hsv": [
+          74,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 5,
+        "c": 4,
+        "kc": "KC_KP_7",
+        "label": "7",
+        "modtap": false,
+        "hsv": [
+          74,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 5,
+        "c": 3,
+        "kc": "KC_KP_8",
+        "label": "8",
+        "modtap": false,
+        "hsv": [
+          74,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 5,
+        "c": 2,
+        "kc": "KC_KP_9",
+        "label": "9",
+        "modtap": false,
+        "hsv": [
+          74,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 5,
+        "c": 1,
+        "kc": "KC_KP_0",
+        "label": "0",
+        "modtap": false,
+        "hsv": [
+          74,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 5,
+        "c": 0,
+        "kc": "KC_DELETE",
+        "label": "Del",
+        "modtap": false,
+        "hsv": [
+          152,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 1,
+        "c": 0,
+        "kc": "LSFT(KC_GRAVE)",
+        "label": "\u21e7`",
+        "modtap": false,
+        "hsv": [
+          152,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 1,
+        "c": 1,
+        "kc": "LSFT(KC_1)",
+        "label": "\u21e71",
+        "modtap": false,
+        "hsv": [
+          152,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 1,
+        "c": 2,
+        "kc": "LSFT(KC_2)",
+        "label": "\u21e72",
+        "modtap": false,
+        "hsv": [
+          152,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 1,
+        "c": 3,
+        "kc": "LSFT(KC_3)",
+        "label": "\u21e73",
+        "modtap": false,
+        "hsv": [
+          152,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 1,
+        "c": 4,
+        "kc": "LSFT(KC_4)",
+        "label": "\u21e74",
+        "modtap": false,
+        "hsv": [
+          152,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 1,
+        "c": 5,
+        "kc": "LSFT(KC_5)",
+        "label": "\u21e75",
+        "modtap": false,
+        "hsv": [
+          152,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 6,
+        "c": 5,
+        "kc": "LSFT(KC_6)",
+        "label": "\u21e76",
+        "modtap": false,
+        "hsv": [
+          152,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 6,
+        "c": 4,
+        "kc": "LSFT(KC_7)",
+        "label": "\u21e77",
+        "modtap": false,
+        "hsv": [
+          152,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 6,
+        "c": 3,
+        "kc": "LSFT(KC_8)",
+        "label": "\u21e78",
+        "modtap": false,
+        "hsv": [
+          152,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 6,
+        "c": 2,
+        "kc": "LSFT(KC_9)",
+        "label": "\u21e79",
+        "modtap": false,
+        "hsv": [
+          152,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 6,
+        "c": 1,
+        "kc": "LSFT(KC_0)",
+        "label": "\u21e70",
+        "modtap": false,
+        "hsv": [
+          152,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 6,
+        "c": 0,
+        "kc": "KC_BSLS",
+        "label": "\\",
+        "modtap": false,
+        "hsv": [
+          152,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 2,
+        "c": 0,
+        "kc": "KC_LSFT",
+        "label": "\u21e7",
+        "modtap": false,
+        "hsv": [
+          152,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 2,
+        "c": 1,
+        "kc": "KC_KP_MINUS",
+        "label": "-",
+        "modtap": false,
+        "hsv": [
+          152,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 2,
+        "c": 2,
+        "kc": "KC_KP_EQUAL",
+        "label": "=",
+        "modtap": false,
+        "hsv": [
+          152,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 2,
+        "c": 3,
+        "kc": "KC_LBRC",
+        "label": "[",
+        "modtap": false,
+        "hsv": [
+          152,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 2,
+        "c": 4,
+        "kc": "KC_RBRC",
+        "label": "]",
+        "modtap": false,
+        "hsv": [
+          152,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 2,
+        "c": 5,
+        "kc": "LSFT(KC_MINUS)",
+        "label": "\u21e7-",
+        "modtap": false,
+        "hsv": [
+          152,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 7,
+        "c": 5,
+        "kc": "LSFT(KC_EQUAL)",
+        "label": "\u21e7=",
+        "modtap": false,
+        "hsv": [
+          152,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 7,
+        "c": 4,
+        "kc": "LSFT(KC_LBRC)",
+        "label": "\u21e7[",
+        "modtap": false,
+        "hsv": [
+          152,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 7,
+        "c": 3,
+        "kc": "LSFT(KC_RBRC)",
+        "label": "\u21e7]",
+        "modtap": false,
+        "hsv": [
+          152,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 7,
+        "c": 2,
+        "kc": "LSFT(KC_BSLS)",
+        "label": "\u21e7\\",
+        "modtap": false,
+        "hsv": [
+          152,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 7,
+        "c": 1,
+        "kc": "KC_NO",
+        "label": "\u00b7",
+        "modtap": false,
+        "hsv": null
+      },
+      {
+        "r": 7,
+        "c": 0,
+        "kc": "KC_NO",
+        "label": "\u00b7",
+        "modtap": false,
+        "hsv": null
+      },
+      {
+        "r": 3,
+        "c": 3,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          188,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 3,
+        "c": 4,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          188,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 3,
+        "c": 5,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          188,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 8,
+        "c": 5,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          188,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 8,
+        "c": 4,
+        "kc": "OSL(3)",
+        "label": "OSL3",
+        "modtap": false,
+        "hsv": [
+          128,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 8,
+        "c": 3,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          188,
+          255,
+          255
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Nav",
+    "keys": [
+      {
+        "r": 0,
+        "c": 0,
+        "kc": "LGUI(KC_Z)",
+        "label": "\u2318Z",
+        "modtap": false,
+        "hsv": [
+          152,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 0,
+        "c": 1,
+        "kc": "LGUI(KC_X)",
+        "label": "\u2318X",
+        "modtap": false,
+        "hsv": [
+          152,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 0,
+        "c": 2,
+        "kc": "LGUI(KC_C)",
+        "label": "\u2318C",
+        "modtap": false,
+        "hsv": [
+          152,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 0,
+        "c": 3,
+        "kc": "LGUI(KC_V)",
+        "label": "\u2318V",
+        "modtap": false,
+        "hsv": [
+          152,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 0,
+        "c": 4,
+        "kc": "LGUI(KC_R)",
+        "label": "\u2318R",
+        "modtap": false,
+        "hsv": [
+          152,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 0,
+        "c": 5,
+        "kc": "KC_NO",
+        "label": "\u00b7",
+        "modtap": false,
+        "hsv": [
+          152,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 5,
+        "c": 5,
+        "kc": "KC_HOME",
+        "label": "Home",
+        "modtap": false,
+        "hsv": [
+          152,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 5,
+        "c": 4,
+        "kc": "KC_PGDN",
+        "label": "PgDn",
+        "modtap": false,
+        "hsv": [
+          152,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 5,
+        "c": 3,
+        "kc": "KC_PGUP",
+        "label": "PgUp",
+        "modtap": false,
+        "hsv": [
+          152,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 5,
+        "c": 2,
+        "kc": "KC_END",
+        "label": "End",
+        "modtap": false,
+        "hsv": [
+          152,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 5,
+        "c": 1,
+        "kc": "KC_NO",
+        "label": "\u00b7",
+        "modtap": false,
+        "hsv": [
+          152,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 5,
+        "c": 0,
+        "kc": "KC_DELETE",
+        "label": "Del",
+        "modtap": false,
+        "hsv": [
+          152,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 1,
+        "c": 0,
+        "kc": "KC_LALT",
+        "label": "\u2325",
+        "modtap": false,
+        "hsv": [
+          152,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 1,
+        "c": 1,
+        "kc": "KC_NO",
+        "label": "\u00b7",
+        "modtap": false,
+        "hsv": [
+          152,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 1,
+        "c": 2,
+        "kc": "KC_NO",
+        "label": "\u00b7",
+        "modtap": false,
+        "hsv": [
+          152,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 1,
+        "c": 3,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          152,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 1,
+        "c": 4,
+        "kc": "KC_NO",
+        "label": "\u00b7",
+        "modtap": false,
+        "hsv": [
+          152,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 1,
+        "c": 5,
+        "kc": "KC_NO",
+        "label": "\u00b7",
+        "modtap": false,
+        "hsv": [
+          152,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 6,
+        "c": 5,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          152,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 6,
+        "c": 4,
+        "kc": "KC_LEFT",
+        "label": "\u2190",
+        "modtap": false,
+        "hsv": [
+          74,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 6,
+        "c": 3,
+        "kc": "KC_DOWN",
+        "label": "\u2193",
+        "modtap": false,
+        "hsv": [
+          74,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 6,
+        "c": 2,
+        "kc": "KC_UP",
+        "label": "\u2191",
+        "modtap": false,
+        "hsv": [
+          74,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 6,
+        "c": 1,
+        "kc": "KC_RIGHT",
+        "label": "\u2192",
+        "modtap": false,
+        "hsv": [
+          74,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 6,
+        "c": 0,
+        "kc": "KC_NO",
+        "label": "\u00b7",
+        "modtap": false,
+        "hsv": [
+          152,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 2,
+        "c": 0,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          152,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 2,
+        "c": 1,
+        "kc": "KC_NO",
+        "label": "\u00b7",
+        "modtap": false,
+        "hsv": [
+          152,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 2,
+        "c": 2,
+        "kc": "KC_NO",
+        "label": "\u00b7",
+        "modtap": false,
+        "hsv": [
+          152,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 2,
+        "c": 3,
+        "kc": "RCTL(KC_LEFT)",
+        "label": "\u2303\u2190",
+        "modtap": false,
+        "hsv": [
+          152,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 2,
+        "c": 4,
+        "kc": "LCTL(KC_RIGHT)",
+        "label": "\u2303\u2192",
+        "modtap": false,
+        "hsv": [
+          152,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 2,
+        "c": 5,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          152,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 7,
+        "c": 5,
+        "kc": "KC_NO",
+        "label": "\u00b7",
+        "modtap": false,
+        "hsv": [
+          152,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 7,
+        "c": 4,
+        "kc": "KC_NO",
+        "label": "\u00b7",
+        "modtap": false,
+        "hsv": [
+          152,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 7,
+        "c": 3,
+        "kc": "KC_NO",
+        "label": "\u00b7",
+        "modtap": false,
+        "hsv": [
+          152,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 7,
+        "c": 2,
+        "kc": "KC_NO",
+        "label": "\u00b7",
+        "modtap": false,
+        "hsv": [
+          152,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 7,
+        "c": 1,
+        "kc": "KC_NO",
+        "label": "\u00b7",
+        "modtap": false,
+        "hsv": [
+          152,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 7,
+        "c": 0,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          152,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 3,
+        "c": 3,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          188,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 3,
+        "c": 4,
+        "kc": "OSL(3)",
+        "label": "OSL3",
+        "modtap": false,
+        "hsv": [
+          128,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 3,
+        "c": 5,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          188,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 8,
+        "c": 5,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          188,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 8,
+        "c": 4,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          188,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 8,
+        "c": 3,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          188,
+          255,
+          255
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Function",
+    "keys": [
+      {
+        "r": 0,
+        "c": 0,
+        "kc": "RM_TOGG",
+        "label": "RGBTOGG",
+        "modtap": false,
+        "hsv": [
+          128,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 0,
+        "c": 1,
+        "kc": "KC_F1",
+        "label": "F1",
+        "modtap": false,
+        "hsv": [
+          152,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 0,
+        "c": 2,
+        "kc": "KC_F2",
+        "label": "F2",
+        "modtap": false,
+        "hsv": [
+          152,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 0,
+        "c": 3,
+        "kc": "KC_F3",
+        "label": "F3",
+        "modtap": false,
+        "hsv": [
+          152,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 0,
+        "c": 4,
+        "kc": "KC_F4",
+        "label": "F4",
+        "modtap": false,
+        "hsv": [
+          152,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 0,
+        "c": 5,
+        "kc": "KC_F5",
+        "label": "F5",
+        "modtap": false,
+        "hsv": [
+          152,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 5,
+        "c": 5,
+        "kc": "KC_F6",
+        "label": "F6",
+        "modtap": false,
+        "hsv": [
+          152,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 5,
+        "c": 4,
+        "kc": "KC_F7",
+        "label": "F7",
+        "modtap": false,
+        "hsv": [
+          152,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 5,
+        "c": 3,
+        "kc": "KC_F8",
+        "label": "F8",
+        "modtap": false,
+        "hsv": [
+          152,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 5,
+        "c": 2,
+        "kc": "KC_F9",
+        "label": "F9",
+        "modtap": false,
+        "hsv": [
+          152,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 5,
+        "c": 1,
+        "kc": "KC_F10",
+        "label": "F10",
+        "modtap": false,
+        "hsv": [
+          152,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 5,
+        "c": 0,
+        "kc": "QK_BOOT",
+        "label": "Boot",
+        "modtap": false,
+        "hsv": [
+          0,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 1,
+        "c": 0,
+        "kc": "KC_NO",
+        "label": "\u00b7",
+        "modtap": false,
+        "hsv": [
+          152,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 1,
+        "c": 1,
+        "kc": "KC_F11",
+        "label": "F11",
+        "modtap": false,
+        "hsv": [
+          152,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 1,
+        "c": 2,
+        "kc": "KC_F12",
+        "label": "F12",
+        "modtap": false,
+        "hsv": [
+          152,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 1,
+        "c": 3,
+        "kc": "OSL(4)",
+        "label": "OSL4",
+        "modtap": false,
+        "hsv": [
+          152,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 1,
+        "c": 4,
+        "kc": "SGUI(KC_4)",
+        "label": "\u21e7\u23184",
+        "modtap": false,
+        "hsv": [
+          74,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 1,
+        "c": 5,
+        "kc": "KC_NO",
+        "label": "\u00b7",
+        "modtap": false,
+        "hsv": [
+          152,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 6,
+        "c": 5,
+        "kc": "KC_VOLD",
+        "label": "Vol-",
+        "modtap": false,
+        "hsv": [
+          152,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 6,
+        "c": 4,
+        "kc": "KC_VOLU",
+        "label": "Vol+",
+        "modtap": false,
+        "hsv": [
+          152,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 6,
+        "c": 3,
+        "kc": "KC_MUTE",
+        "label": "Mute",
+        "modtap": false,
+        "hsv": [
+          152,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 6,
+        "c": 2,
+        "kc": "QK_CAPS_WORD_TOGGLE",
+        "label": "CapsWrd",
+        "modtap": false,
+        "hsv": [
+          74,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 6,
+        "c": 1,
+        "kc": "TG(4)",
+        "label": "TG4",
+        "modtap": false,
+        "hsv": [
+          21,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 6,
+        "c": 0,
+        "kc": "TG(5)",
+        "label": "TG5",
+        "modtap": false,
+        "hsv": [
+          21,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 2,
+        "c": 0,
+        "kc": "RM_NEXT",
+        "label": "RGBNEXT",
+        "modtap": false,
+        "hsv": [
+          152,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 2,
+        "c": 1,
+        "kc": "RM_VALD",
+        "label": "RGBVALD",
+        "modtap": false,
+        "hsv": [
+          152,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 2,
+        "c": 2,
+        "kc": "RM_VALU",
+        "label": "RGBVALU",
+        "modtap": false,
+        "hsv": [
+          152,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 2,
+        "c": 3,
+        "kc": "KC_NO",
+        "label": "\u00b7",
+        "modtap": false,
+        "hsv": [
+          152,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 2,
+        "c": 4,
+        "kc": "KC_NO",
+        "label": "\u00b7",
+        "modtap": false,
+        "hsv": [
+          152,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 2,
+        "c": 5,
+        "kc": "KC_NO",
+        "label": "\u00b7",
+        "modtap": false,
+        "hsv": [
+          152,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 7,
+        "c": 5,
+        "kc": "KC_MRWD",
+        "label": "Rwd",
+        "modtap": false,
+        "hsv": [
+          152,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 7,
+        "c": 4,
+        "kc": "KC_MPLY",
+        "label": "Play",
+        "modtap": false,
+        "hsv": [
+          152,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 7,
+        "c": 3,
+        "kc": "KC_MFFD",
+        "label": "Ffd",
+        "modtap": false,
+        "hsv": [
+          152,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 7,
+        "c": 2,
+        "kc": "KC_NO",
+        "label": "\u00b7",
+        "modtap": false,
+        "hsv": [
+          152,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 7,
+        "c": 1,
+        "kc": "KC_NO",
+        "label": "\u00b7",
+        "modtap": false,
+        "hsv": [
+          152,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 7,
+        "c": 0,
+        "kc": "KC_NO",
+        "label": "\u00b7",
+        "modtap": false,
+        "hsv": [
+          152,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 3,
+        "c": 3,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          188,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 3,
+        "c": 4,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          188,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 3,
+        "c": 5,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          188,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 8,
+        "c": 5,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          188,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 8,
+        "c": 4,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          188,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 8,
+        "c": 3,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          188,
+          255,
+          255
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Return",
+    "keys": [
+      {
+        "r": 0,
+        "c": 0,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          216
+        ]
+      },
+      {
+        "r": 0,
+        "c": 1,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          216
+        ]
+      },
+      {
+        "r": 0,
+        "c": 2,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          216
+        ]
+      },
+      {
+        "r": 0,
+        "c": 3,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          216
+        ]
+      },
+      {
+        "r": 0,
+        "c": 4,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          216
+        ]
+      },
+      {
+        "r": 0,
+        "c": 5,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          216
+        ]
+      },
+      {
+        "r": 5,
+        "c": 5,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          216
+        ]
+      },
+      {
+        "r": 5,
+        "c": 4,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          216
+        ]
+      },
+      {
+        "r": 5,
+        "c": 3,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          216
+        ]
+      },
+      {
+        "r": 5,
+        "c": 2,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          216
+        ]
+      },
+      {
+        "r": 5,
+        "c": 1,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          216
+        ]
+      },
+      {
+        "r": 5,
+        "c": 0,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          216
+        ]
+      },
+      {
+        "r": 1,
+        "c": 0,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          216
+        ]
+      },
+      {
+        "r": 1,
+        "c": 1,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          216
+        ]
+      },
+      {
+        "r": 1,
+        "c": 2,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          216
+        ]
+      },
+      {
+        "r": 1,
+        "c": 3,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          216
+        ]
+      },
+      {
+        "r": 1,
+        "c": 4,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          216
+        ]
+      },
+      {
+        "r": 1,
+        "c": 5,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          216
+        ]
+      },
+      {
+        "r": 6,
+        "c": 5,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          216
+        ]
+      },
+      {
+        "r": 6,
+        "c": 4,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          216
+        ]
+      },
+      {
+        "r": 6,
+        "c": 3,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          216
+        ]
+      },
+      {
+        "r": 6,
+        "c": 2,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          216
+        ]
+      },
+      {
+        "r": 6,
+        "c": 1,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          216
+        ]
+      },
+      {
+        "r": 6,
+        "c": 0,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          216
+        ]
+      },
+      {
+        "r": 2,
+        "c": 0,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          216
+        ]
+      },
+      {
+        "r": 2,
+        "c": 1,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          216
+        ]
+      },
+      {
+        "r": 2,
+        "c": 2,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          216
+        ]
+      },
+      {
+        "r": 2,
+        "c": 3,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          216
+        ]
+      },
+      {
+        "r": 2,
+        "c": 4,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          216
+        ]
+      },
+      {
+        "r": 2,
+        "c": 5,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          216
+        ]
+      },
+      {
+        "r": 7,
+        "c": 5,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          216
+        ]
+      },
+      {
+        "r": 7,
+        "c": 4,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          216
+        ]
+      },
+      {
+        "r": 7,
+        "c": 3,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          216
+        ]
+      },
+      {
+        "r": 7,
+        "c": 2,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          216
+        ]
+      },
+      {
+        "r": 7,
+        "c": 1,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          216
+        ]
+      },
+      {
+        "r": 7,
+        "c": 0,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          216
+        ]
+      },
+      {
+        "r": 3,
+        "c": 3,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          216
+        ]
+      },
+      {
+        "r": 3,
+        "c": 4,
+        "kc": "TO(0)",
+        "label": "TO0",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          216
+        ]
+      },
+      {
+        "r": 3,
+        "c": 5,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          216
+        ]
+      },
+      {
+        "r": 8,
+        "c": 5,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          216
+        ]
+      },
+      {
+        "r": 8,
+        "c": 4,
+        "kc": "TO(0)",
+        "label": "TO0",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          216
+        ]
+      },
+      {
+        "r": 8,
+        "c": 3,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          216
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Return2",
+    "keys": [
+      {
+        "r": 0,
+        "c": 0,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          234
+        ]
+      },
+      {
+        "r": 0,
+        "c": 1,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          234
+        ]
+      },
+      {
+        "r": 0,
+        "c": 2,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          234
+        ]
+      },
+      {
+        "r": 0,
+        "c": 3,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          234
+        ]
+      },
+      {
+        "r": 0,
+        "c": 4,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          234
+        ]
+      },
+      {
+        "r": 0,
+        "c": 5,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          234
+        ]
+      },
+      {
+        "r": 5,
+        "c": 5,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          234
+        ]
+      },
+      {
+        "r": 5,
+        "c": 4,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          234
+        ]
+      },
+      {
+        "r": 5,
+        "c": 3,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          234
+        ]
+      },
+      {
+        "r": 5,
+        "c": 2,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          234
+        ]
+      },
+      {
+        "r": 5,
+        "c": 1,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          234
+        ]
+      },
+      {
+        "r": 5,
+        "c": 0,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          234
+        ]
+      },
+      {
+        "r": 1,
+        "c": 0,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          234
+        ]
+      },
+      {
+        "r": 1,
+        "c": 1,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          234
+        ]
+      },
+      {
+        "r": 1,
+        "c": 2,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          234
+        ]
+      },
+      {
+        "r": 1,
+        "c": 3,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          234
+        ]
+      },
+      {
+        "r": 1,
+        "c": 4,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          234
+        ]
+      },
+      {
+        "r": 1,
+        "c": 5,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          234
+        ]
+      },
+      {
+        "r": 6,
+        "c": 5,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          234
+        ]
+      },
+      {
+        "r": 6,
+        "c": 4,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          234
+        ]
+      },
+      {
+        "r": 6,
+        "c": 3,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          234
+        ]
+      },
+      {
+        "r": 6,
+        "c": 2,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          234
+        ]
+      },
+      {
+        "r": 6,
+        "c": 1,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          234
+        ]
+      },
+      {
+        "r": 6,
+        "c": 0,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          234
+        ]
+      },
+      {
+        "r": 2,
+        "c": 0,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          234
+        ]
+      },
+      {
+        "r": 2,
+        "c": 1,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          234
+        ]
+      },
+      {
+        "r": 2,
+        "c": 2,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          234
+        ]
+      },
+      {
+        "r": 2,
+        "c": 3,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          234
+        ]
+      },
+      {
+        "r": 2,
+        "c": 4,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          234
+        ]
+      },
+      {
+        "r": 2,
+        "c": 5,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          234
+        ]
+      },
+      {
+        "r": 7,
+        "c": 5,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          234
+        ]
+      },
+      {
+        "r": 7,
+        "c": 4,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          234
+        ]
+      },
+      {
+        "r": 7,
+        "c": 3,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          234
+        ]
+      },
+      {
+        "r": 7,
+        "c": 2,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          234
+        ]
+      },
+      {
+        "r": 7,
+        "c": 1,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          234
+        ]
+      },
+      {
+        "r": 7,
+        "c": 0,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          234
+        ]
+      },
+      {
+        "r": 3,
+        "c": 3,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          234
+        ]
+      },
+      {
+        "r": 3,
+        "c": 4,
+        "kc": "TO(0)",
+        "label": "TO0",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          234
+        ]
+      },
+      {
+        "r": 3,
+        "c": 5,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          234
+        ]
+      },
+      {
+        "r": 8,
+        "c": 5,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          234
+        ]
+      },
+      {
+        "r": 8,
+        "c": 4,
+        "kc": "TO(0)",
+        "label": "TO0",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          234
+        ]
+      },
+      {
+        "r": 8,
+        "c": 3,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          234
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Unused",
+    "keys": [
+      {
+        "r": 0,
+        "c": 0,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          231
+        ]
+      },
+      {
+        "r": 0,
+        "c": 1,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          231
+        ]
+      },
+      {
+        "r": 0,
+        "c": 2,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          231
+        ]
+      },
+      {
+        "r": 0,
+        "c": 3,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          231
+        ]
+      },
+      {
+        "r": 0,
+        "c": 4,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          231
+        ]
+      },
+      {
+        "r": 0,
+        "c": 5,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          231
+        ]
+      },
+      {
+        "r": 5,
+        "c": 5,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          231
+        ]
+      },
+      {
+        "r": 5,
+        "c": 4,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          231
+        ]
+      },
+      {
+        "r": 5,
+        "c": 3,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          231
+        ]
+      },
+      {
+        "r": 5,
+        "c": 2,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          231
+        ]
+      },
+      {
+        "r": 5,
+        "c": 1,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          231
+        ]
+      },
+      {
+        "r": 5,
+        "c": 0,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          231
+        ]
+      },
+      {
+        "r": 1,
+        "c": 0,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          231
+        ]
+      },
+      {
+        "r": 1,
+        "c": 1,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          231
+        ]
+      },
+      {
+        "r": 1,
+        "c": 2,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          231
+        ]
+      },
+      {
+        "r": 1,
+        "c": 3,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          231
+        ]
+      },
+      {
+        "r": 1,
+        "c": 4,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          231
+        ]
+      },
+      {
+        "r": 1,
+        "c": 5,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          231
+        ]
+      },
+      {
+        "r": 6,
+        "c": 5,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          231
+        ]
+      },
+      {
+        "r": 6,
+        "c": 4,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          231
+        ]
+      },
+      {
+        "r": 6,
+        "c": 3,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          231
+        ]
+      },
+      {
+        "r": 6,
+        "c": 2,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          231
+        ]
+      },
+      {
+        "r": 6,
+        "c": 1,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          231
+        ]
+      },
+      {
+        "r": 6,
+        "c": 0,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          231
+        ]
+      },
+      {
+        "r": 2,
+        "c": 0,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          231
+        ]
+      },
+      {
+        "r": 2,
+        "c": 1,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          231
+        ]
+      },
+      {
+        "r": 2,
+        "c": 2,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          231
+        ]
+      },
+      {
+        "r": 2,
+        "c": 3,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          231
+        ]
+      },
+      {
+        "r": 2,
+        "c": 4,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          231
+        ]
+      },
+      {
+        "r": 2,
+        "c": 5,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          231
+        ]
+      },
+      {
+        "r": 7,
+        "c": 5,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          231
+        ]
+      },
+      {
+        "r": 7,
+        "c": 4,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          231
+        ]
+      },
+      {
+        "r": 7,
+        "c": 3,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          231
+        ]
+      },
+      {
+        "r": 7,
+        "c": 2,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          231
+        ]
+      },
+      {
+        "r": 7,
+        "c": 1,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          231
+        ]
+      },
+      {
+        "r": 7,
+        "c": 0,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          231
+        ]
+      },
+      {
+        "r": 3,
+        "c": 3,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          231
+        ]
+      },
+      {
+        "r": 3,
+        "c": 4,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          231
+        ]
+      },
+      {
+        "r": 3,
+        "c": 5,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          231
+        ]
+      },
+      {
+        "r": 8,
+        "c": 5,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          231
+        ]
+      },
+      {
+        "r": 8,
+        "c": 4,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          231
+        ]
+      },
+      {
+        "r": 8,
+        "c": 3,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          231
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Unused",
+    "keys": [
+      {
+        "r": 0,
+        "c": 0,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          238
+        ]
+      },
+      {
+        "r": 0,
+        "c": 1,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          238
+        ]
+      },
+      {
+        "r": 0,
+        "c": 2,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          238
+        ]
+      },
+      {
+        "r": 0,
+        "c": 3,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          238
+        ]
+      },
+      {
+        "r": 0,
+        "c": 4,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          238
+        ]
+      },
+      {
+        "r": 0,
+        "c": 5,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          238
+        ]
+      },
+      {
+        "r": 5,
+        "c": 5,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          238
+        ]
+      },
+      {
+        "r": 5,
+        "c": 4,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          238
+        ]
+      },
+      {
+        "r": 5,
+        "c": 3,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          238
+        ]
+      },
+      {
+        "r": 5,
+        "c": 2,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          238
+        ]
+      },
+      {
+        "r": 5,
+        "c": 1,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          238
+        ]
+      },
+      {
+        "r": 5,
+        "c": 0,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          238
+        ]
+      },
+      {
+        "r": 1,
+        "c": 0,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          238
+        ]
+      },
+      {
+        "r": 1,
+        "c": 1,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          238
+        ]
+      },
+      {
+        "r": 1,
+        "c": 2,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          238
+        ]
+      },
+      {
+        "r": 1,
+        "c": 3,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          238
+        ]
+      },
+      {
+        "r": 1,
+        "c": 4,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          238
+        ]
+      },
+      {
+        "r": 1,
+        "c": 5,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          238
+        ]
+      },
+      {
+        "r": 6,
+        "c": 5,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          238
+        ]
+      },
+      {
+        "r": 6,
+        "c": 4,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          238
+        ]
+      },
+      {
+        "r": 6,
+        "c": 3,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          238
+        ]
+      },
+      {
+        "r": 6,
+        "c": 2,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          238
+        ]
+      },
+      {
+        "r": 6,
+        "c": 1,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          238
+        ]
+      },
+      {
+        "r": 6,
+        "c": 0,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          238
+        ]
+      },
+      {
+        "r": 2,
+        "c": 0,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          238
+        ]
+      },
+      {
+        "r": 2,
+        "c": 1,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          238
+        ]
+      },
+      {
+        "r": 2,
+        "c": 2,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          238
+        ]
+      },
+      {
+        "r": 2,
+        "c": 3,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          238
+        ]
+      },
+      {
+        "r": 2,
+        "c": 4,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          238
+        ]
+      },
+      {
+        "r": 2,
+        "c": 5,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          238
+        ]
+      },
+      {
+        "r": 7,
+        "c": 5,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          238
+        ]
+      },
+      {
+        "r": 7,
+        "c": 4,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          238
+        ]
+      },
+      {
+        "r": 7,
+        "c": 3,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          238
+        ]
+      },
+      {
+        "r": 7,
+        "c": 2,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          238
+        ]
+      },
+      {
+        "r": 7,
+        "c": 1,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          238
+        ]
+      },
+      {
+        "r": 7,
+        "c": 0,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          238
+        ]
+      },
+      {
+        "r": 3,
+        "c": 3,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          238
+        ]
+      },
+      {
+        "r": 3,
+        "c": 4,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          238
+        ]
+      },
+      {
+        "r": 3,
+        "c": 5,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          238
+        ]
+      },
+      {
+        "r": 8,
+        "c": 5,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          238
+        ]
+      },
+      {
+        "r": 8,
+        "c": 4,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          238
+        ]
+      },
+      {
+        "r": 8,
+        "c": 3,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          238
+        ]
+      }
+    ]
+  }
+]
