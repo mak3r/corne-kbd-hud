@@ -47,9 +47,15 @@ class HudWindow(QWidget):
     def __init__(self):
         super().__init__()
         self.setWindowFlags(
-            Qt.FramelessWindowHint | Qt.WindowStaysOnTopHint | Qt.Tool | Qt.NoDropShadowWindowHint
+            Qt.FramelessWindowHint
+            | Qt.WindowStaysOnTopHint
+            | Qt.Tool
+            | Qt.NoDropShadowWindowHint
+            | Qt.WindowDoesNotAcceptFocus  # critical: without this the HUD steals keyboard
+            # focus from whatever app you're actually typing into when shown/raised.
         )
         self.setAttribute(Qt.WA_TranslucentBackground)
+        self.setFocusPolicy(Qt.NoFocus)
 
         self._positions = compute_positions()
         self._layers = json.loads(DATA_PATH.read_text())

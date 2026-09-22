@@ -1,7 +1,7 @@
 import signal
 import sys
 
-from PySide6.QtCore import QTimer
+from PySide6.QtCore import Qt, QTimer
 from PySide6.QtGui import QAction, QColor, QIcon, QPainter, QPixmap
 from PySide6.QtWidgets import QApplication, QMenu, QSystemTrayIcon
 
@@ -10,14 +10,21 @@ from .hud_window import HudWindow
 
 
 def make_tray_icon(connected: bool) -> QIcon:
+    # Distinguish by SHAPE, not just color -- macOS tray icons are often
+    # rendered as monochrome "template" images, which would silently
+    # flatten a color-only distinction.
     pixmap = QPixmap(32, 32)
-    pixmap.fill(0x00000000)
+    pixmap.fill(QColor(0, 0, 0, 0))  # explicit transparent, not a bare 0 int
     painter = QPainter(pixmap)
     painter.setRenderHint(QPainter.Antialiasing)
-    color = QColor(125, 211, 192) if connected else QColor(90, 94, 107)
-    painter.setBrush(color)
-    painter.setPen(color.darker(120))
-    painter.drawRoundedRect(3, 8, 26, 16, 4, 4)
+    color = QColor(125, 211, 192) if connected else QColor(140, 144, 155)
+    painter.setPen(color)
+    if connected:
+        painter.setBrush(color)
+        painter.drawEllipse(8, 8, 16, 16)  # filled dot = connected
+    else:
+        painter.setBrush(Qt.NoBrush)
+        painter.drawEllipse(9, 9, 14, 14)  # hollow ring = not connected
     painter.end()
     return QIcon(pixmap)
 
@@ -44,16 +51,20 @@ class HalcyonHudApp:
         self.tray.setIcon(make_tray_icon(connected=False))
         self.tray.setToolTip("Halcyon Corne HUD")
 
-        menu = QMenu()
+        # Every QAction/QMenu needs a Python-side reference kept alive for
+        # the app's lifetime (self.foo, not a local var) -- PySide's
+        # ownership handoff to Qt's C++ side isn't reliable enough on its
+        # own; a local-only reference can silently vanish from the menu.
+        self.menu = QMenu()
         self.toggle_action = QAction("Show HUD")
         self.toggle_action.setCheckable(True)
         self.toggle_action.triggered.connect(self._toggle_hud)
-        menu.addAction(self.toggle_action)
-        menu.addSeparator()
-        quit_action = QAction("Quit")
-        quit_action.triggered.connect(self._quit)
-        menu.addAction(quit_action)
-        self.tray.setContextMenu(menu)
+        self.menu.addAction(self.toggle_action)
+        self.menu.addSeparator()
+        self.quit_action = QAction("Quit")
+        self.quit_action.triggered.connect(self._quit)
+        self.menu.addAction(self.quit_action)
+        self.tray.setContextMenu(self.menu)
         self.tray.show()
 
         self.transport.start()

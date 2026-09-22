@@ -22,6 +22,7 @@ firmware (layer_state_set_user)
 What's not built yet (see `halcyon-corne`'s original HUD plan for the fuller phase list):
 - Packaging/code signing (macOS Input Monitoring permission handling in particular needs real testing)
 - Per-key press flashes (only layer changes are shown right now, not individual keypresses)
+- Resizing the HUD (currently a fixed size computed from the layout)
 - Windows/Linux testing (developed and tested on macOS only so far)
 - ZMK transport (a real lift — see `halcyon-corne`'s CLAUDE.md for why that's a separate, later concern)
 
