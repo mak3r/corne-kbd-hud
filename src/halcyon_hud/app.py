@@ -38,19 +38,28 @@ def _hide_from_dock():
 def make_tray_icon(connected: bool) -> QIcon:
     # Distinguish by SHAPE, not just color -- macOS tray icons are often
     # rendered as monochrome "template" images, which would silently
-    # flatten a color-only distinction.
+    # flatten a color-only distinction. The disconnected color also needs
+    # to be a real, saturated color rather than near-grey (R~=G~=B) --
+    # confirmed on hardware that a near-grayscale icon renders faint/
+    # translucent (macOS's template-image auto-detection triggers on
+    # colors that already look monochrome) and is easy to miss entirely
+    # on a large/ultrawide display. The shape also now fills most of the
+    # canvas instead of a small centered dot, for the same reason.
     pixmap = QPixmap(32, 32)
     pixmap.fill(QColor(0, 0, 0, 0))  # explicit transparent, not a bare 0 int
     painter = QPainter(pixmap)
     painter.setRenderHint(QPainter.Antialiasing)
-    color = QColor(125, 211, 192) if connected else QColor(140, 144, 155)
+    color = QColor(125, 211, 192) if connected else QColor(224, 122, 95)  # teal / terracotta
     painter.setPen(color)
     if connected:
         painter.setBrush(color)
-        painter.drawEllipse(8, 8, 16, 16)  # filled dot = connected
+        painter.drawEllipse(4, 4, 24, 24)  # filled dot = connected
     else:
+        pen = painter.pen()
+        pen.setWidth(3)
+        painter.setPen(pen)
         painter.setBrush(Qt.NoBrush)
-        painter.drawEllipse(9, 9, 14, 14)  # hollow ring = not connected
+        painter.drawEllipse(6, 6, 20, 20)  # hollow ring = not connected
     painter.end()
     return QIcon(pixmap)
 
@@ -104,6 +113,10 @@ class HalcyonHudApp:
         self.tray.show()
         _log(f"menu built with {len(self.menu.actions())} actions: {[a.text() for a in self.menu.actions()]}")
         _log(f"QSystemTrayIcon.isSystemTrayAvailable() = {QSystemTrayIcon.isSystemTrayAvailable()}")
+        _log(f"tray.isVisible() = {self.tray.isVisible()}, tray.geometry() = {self.tray.geometry()}")
+        QTimer.singleShot(1000, lambda: _log(
+            f"tray.isVisible() [+1s] = {self.tray.isVisible()}, geometry = {self.tray.geometry()}"
+        ))
 
         # Poll Qt's own idea of which window is active/focused, AND the real
         # AppKit ground truth (frontmost app + whether we're it) -- Qt's
