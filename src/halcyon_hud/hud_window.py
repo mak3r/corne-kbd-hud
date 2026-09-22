@@ -3,11 +3,17 @@ layer's key layout, colored to match the real keyboard's RGB (from
 rgb_layers.csv, baked into mak3r_layers.json)."""
 import colorsys
 import json
+import sys
+import time
 from pathlib import Path
 
-from PySide6.QtCore import QRectF, Qt, QTimer
+from PySide6.QtCore import QEvent, QRectF, Qt, QTimer
 from PySide6.QtGui import QColor, QFont, QFontMetrics, QPainter, QPainterPath
 from PySide6.QtWidgets import QWidget
+
+
+def _log(msg):
+    print(f"[{time.strftime('%H:%M:%S')}.{int(time.time() * 1000) % 1000:03d}] {msg}", file=sys.stderr, flush=True)
 
 from .keyboard_layout import bounding_size, compute_positions
 
@@ -95,6 +101,7 @@ class HudWindow(QWidget):
         """Keep the HUD visible regardless of layer -- overrides auto-hide
         until unpinned. For learning a new layout, where you want the
         reference up continuously, not just flashing on layer changes."""
+        _log(f"set_pinned({pinned}) called")
         self._pinned = pinned
         if pinned:
             self._auto_hide_timer.stop()
@@ -106,6 +113,7 @@ class HudWindow(QWidget):
     def set_layer(self, layer_index: int):
         if not (0 <= layer_index < len(self._layers)):
             return
+        _log(f"set_layer({layer_index}) called, pinned={self._pinned}")
         self._layer_index = layer_index
         self._rebuild_key_lookup()
         self.update()
@@ -117,8 +125,18 @@ class HudWindow(QWidget):
             self._auto_hide_timer.start(AUTO_HIDE_DELAY_MS)
         else:
             self._auto_hide_timer.stop()
+            _log("  -> calling show() + raise_()")
             self.show()
             self.raise_()
+            _log(f"  -> after show/raise: isActiveWindow={self.isActiveWindow()}, isVisible={self.isVisible()}")
+
+    def event(self, e):
+        if e.type() in (
+            QEvent.FocusIn, QEvent.FocusOut, QEvent.WindowActivate,
+            QEvent.WindowDeactivate, QEvent.Show, QEvent.Hide,
+        ):
+            _log(f"HudWindow event: {e.type()}")
+        return super().event(e)
 
     def paintEvent(self, event):
         painter = QPainter(self)

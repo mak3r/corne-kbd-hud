@@ -6,7 +6,7 @@ from PySide6.QtGui import QAction, QColor, QIcon, QPainter, QPixmap
 from PySide6.QtWidgets import QApplication, QMenu, QSystemTrayIcon
 
 from .hid_transport import HidTransport
-from .hud_window import HudWindow
+from .hud_window import HudWindow, _log
 
 
 def make_tray_icon(connected: bool) -> QIcon:
@@ -45,6 +45,7 @@ class HalcyonHudApp:
         self._signal_timer.timeout.connect(lambda: None)
         self._signal_timer.start(200)
 
+        self._pinned = False
         self.hud = HudWindow()
 
         self.transport = HidTransport()
@@ -61,8 +62,10 @@ class HalcyonHudApp:
         # ownership handoff to Qt's C++ side isn't reliable enough on its
         # own; a local-only reference can silently vanish from the menu.
         self.menu = QMenu()
-        self.toggle_action = QAction("Keep HUD Visible")
-        self.toggle_action.setCheckable(True)
+        # Not setCheckable(True): checkable QActions in a QSystemTrayIcon's
+        # context menu have a known rendering quirk on macOS. Toggling the
+        # label text instead sidesteps it entirely.
+        self.toggle_action = QAction("Pin HUD Visible")
         self.toggle_action.triggered.connect(self._toggle_hud)
         self.menu.addAction(self.toggle_action)
         self.menu.addSeparator()
@@ -70,17 +73,38 @@ class HalcyonHudApp:
         self.quit_action.triggered.connect(self.app.quit)
         self.menu.addAction(self.quit_action)
         self.tray.setContextMenu(self.menu)
+        self.tray.activated.connect(lambda reason: _log(f"tray activated, reason={reason}"))
         self.tray.show()
+        _log(f"menu built with {len(self.menu.actions())} actions: {[a.text() for a in self.menu.actions()]}")
+        _log(f"QSystemTrayIcon.isSystemTrayAvailable() = {QSystemTrayIcon.isSystemTrayAvailable()}")
+
+        # Poll Qt's own idea of which window is active/focused -- if the HUD
+        # ever shows up here, that's Qt-level confirmation it took focus,
+        # independent of anything OS-level we can't directly query.
+        self._focus_poll_timer = QTimer()
+        self._focus_poll_timer.timeout.connect(self._log_focus_state)
+        self._focus_poll_timer.start(300)
+        self._last_active = None
 
         self.transport.start()
+
+    def _log_focus_state(self):
+        active = self.app.activeWindow()
+        if active is not self._last_active:
+            self._last_active = active
+            _log(f"QApplication.activeWindow() changed to: {active!r}")
 
     def _on_connection_changed(self, connected: bool):
         self.hud.set_connected(connected)
         self.tray.setIcon(make_tray_icon(connected))
         self.tray.setToolTip("Halcyon Corne HUD -- connected" if connected else "Halcyon Corne HUD -- not connected")
 
-    def _toggle_hud(self, checked: bool):
-        self.hud.set_pinned(checked)
+    def _toggle_hud(self):
+        pinned = not self._pinned
+        _log(f"_toggle_hud() called, pinned now {pinned}")
+        self._pinned = pinned
+        self.toggle_action.setText("Unpin HUD" if pinned else "Pin HUD Visible")
+        self.hud.set_pinned(pinned)
 
     def run(self):
         return self.app.exec()
