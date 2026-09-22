@@ -105,13 +105,16 @@ class HalcyonHudApp:
         _log(f"menu built with {len(self.menu.actions())} actions: {[a.text() for a in self.menu.actions()]}")
         _log(f"QSystemTrayIcon.isSystemTrayAvailable() = {QSystemTrayIcon.isSystemTrayAvailable()}")
 
-        # Poll Qt's own idea of which window is active/focused -- if the HUD
-        # ever shows up here, that's Qt-level confirmation it took focus,
-        # independent of anything OS-level we can't directly query.
+        # Poll Qt's own idea of which window is active/focused, AND the real
+        # AppKit ground truth (frontmost app + whether we're it) -- Qt's
+        # isActiveWindow() turned out not to mean what we assumed, so this
+        # time we also check what macOS itself thinks, independently.
         self._focus_poll_timer = QTimer()
         self._focus_poll_timer.timeout.connect(self._log_focus_state)
-        self._focus_poll_timer.start(300)
+        self._focus_poll_timer.start(150)
         self._last_active = None
+        self._last_we_are_active = None
+        self._last_frontmost_name = None
 
         self.transport.start()
 
@@ -120,6 +123,19 @@ class HalcyonHudApp:
         if active is not self._last_active:
             self._last_active = active
             _log(f"QApplication.activeWindow() changed to: {active!r}")
+
+        try:
+            from AppKit import NSRunningApplication, NSWorkspace
+
+            we_are_active = NSRunningApplication.currentApplication().isActive()
+            frontmost = NSWorkspace.sharedWorkspace().frontmostApplication()
+            frontmost_name = frontmost.localizedName() if frontmost else None
+            if we_are_active != self._last_we_are_active or frontmost_name != self._last_frontmost_name:
+                self._last_we_are_active = we_are_active
+                self._last_frontmost_name = frontmost_name
+                _log(f"AppKit ground truth: weAreActive={we_are_active}, frontmostApp={frontmost_name!r}")
+        except ImportError:
+            pass
 
     def _on_connection_changed(self, connected: bool):
         self.hud.set_connected(connected)

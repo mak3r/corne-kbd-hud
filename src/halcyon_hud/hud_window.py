@@ -55,9 +55,12 @@ class HudWindow(QWidget):
         self.setWindowFlags(
             Qt.FramelessWindowHint
             | Qt.WindowStaysOnTopHint
-            | Qt.Tool
+            | Qt.ToolTip  # Qt.Tool + WindowDoesNotAcceptFocus still let something
+            # steal focus on macOS -- Qt.ToolTip is the window category Qt
+            # itself guarantees never takes focus, on every platform, since
+            # that's literally what tooltips require to work at all.
             | Qt.NoDropShadowWindowHint
-            | Qt.WindowDoesNotAcceptFocus  # window can never BECOME focused...
+            | Qt.WindowDoesNotAcceptFocus
         )
         self.setAttribute(Qt.WA_TranslucentBackground)
         # ...but on macOS, .show() can still ACTIVATE (steal focus to) a window
