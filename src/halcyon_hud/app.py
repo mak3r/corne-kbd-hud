@@ -36,7 +36,11 @@ class HalcyonHudApp:
 
         # PySide6's event loop otherwise swallows SIGINT (Ctrl-C) silently --
         # this timer just gives Python's own signal handler a chance to run.
-        signal.signal(signal.SIGINT, lambda *_: self._quit())
+        # The handler itself only calls app.quit() (safe from a signal
+        # context); actual cleanup happens on aboutToQuit below, in normal
+        # Qt event-loop context -- calling a blocking QThread.wait() directly
+        # from a signal handler was causing an intermittent abort on exit.
+        signal.signal(signal.SIGINT, lambda *_: self.app.quit())
         self._signal_timer = QTimer()
         self._signal_timer.timeout.connect(lambda: None)
         self._signal_timer.start(200)
@@ -46,6 +50,7 @@ class HalcyonHudApp:
         self.transport = HidTransport()
         self.transport.layerChanged.connect(self.hud.set_layer)
         self.transport.connectionChanged.connect(self._on_connection_changed)
+        self.app.aboutToQuit.connect(self.transport.stop)
 
         self.tray = QSystemTrayIcon()
         self.tray.setIcon(make_tray_icon(connected=False))
@@ -56,13 +61,13 @@ class HalcyonHudApp:
         # ownership handoff to Qt's C++ side isn't reliable enough on its
         # own; a local-only reference can silently vanish from the menu.
         self.menu = QMenu()
-        self.toggle_action = QAction("Show HUD")
+        self.toggle_action = QAction("Keep HUD Visible")
         self.toggle_action.setCheckable(True)
         self.toggle_action.triggered.connect(self._toggle_hud)
         self.menu.addAction(self.toggle_action)
         self.menu.addSeparator()
         self.quit_action = QAction("Quit")
-        self.quit_action.triggered.connect(self._quit)
+        self.quit_action.triggered.connect(self.app.quit)
         self.menu.addAction(self.quit_action)
         self.tray.setContextMenu(self.menu)
         self.tray.show()
@@ -75,14 +80,7 @@ class HalcyonHudApp:
         self.tray.setToolTip("Halcyon Corne HUD -- connected" if connected else "Halcyon Corne HUD -- not connected")
 
     def _toggle_hud(self, checked: bool):
-        if checked:
-            self.hud.show()
-        else:
-            self.hud.hide()
-
-    def _quit(self):
-        self.transport.stop()
-        self.app.quit()
+        self.hud.set_pinned(checked)
 
     def run(self):
         return self.app.exec()

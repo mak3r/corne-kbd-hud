@@ -51,16 +51,20 @@ class HudWindow(QWidget):
             | Qt.WindowStaysOnTopHint
             | Qt.Tool
             | Qt.NoDropShadowWindowHint
-            | Qt.WindowDoesNotAcceptFocus  # critical: without this the HUD steals keyboard
-            # focus from whatever app you're actually typing into when shown/raised.
+            | Qt.WindowDoesNotAcceptFocus  # window can never BECOME focused...
         )
         self.setAttribute(Qt.WA_TranslucentBackground)
+        # ...but on macOS, .show() can still ACTIVATE (steal focus to) a window
+        # regardless of the flag above unless this is also set -- this is the
+        # one that actually stops every layer-key show() from stealing focus.
+        self.setAttribute(Qt.WA_ShowWithoutActivating)
         self.setFocusPolicy(Qt.NoFocus)
 
         self._positions = compute_positions()
         self._layers = json.loads(DATA_PATH.read_text())
         self._layer_index = 0
         self._connected = False
+        self._pinned = False
 
         self._auto_hide_timer = QTimer(self)
         self._auto_hide_timer.setSingleShot(True)
@@ -87,12 +91,27 @@ class HudWindow(QWidget):
         self._connected = connected
         self.update()
 
+    def set_pinned(self, pinned: bool):
+        """Keep the HUD visible regardless of layer -- overrides auto-hide
+        until unpinned. For learning a new layout, where you want the
+        reference up continuously, not just flashing on layer changes."""
+        self._pinned = pinned
+        if pinned:
+            self._auto_hide_timer.stop()
+            self.show()
+            self.raise_()
+        elif self._layer_index == AUTO_HIDE_LAYER:
+            self._auto_hide_timer.start(AUTO_HIDE_DELAY_MS)
+
     def set_layer(self, layer_index: int):
         if not (0 <= layer_index < len(self._layers)):
             return
         self._layer_index = layer_index
         self._rebuild_key_lookup()
         self.update()
+
+        if self._pinned:
+            return  # stays visible/showing this layer regardless of which one
 
         if layer_index == AUTO_HIDE_LAYER:
             self._auto_hide_timer.start(AUTO_HIDE_DELAY_MS)

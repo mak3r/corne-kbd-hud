@@ -21,6 +21,7 @@ CONSOLE_USAGE_PAGE = 0xFF31
 CONSOLE_USAGE = 0x74
 
 RECONNECT_DELAY_S = 2.0
+RECONNECT_POLL_S = 0.1  # how often the reconnect wait re-checks _running
 READ_TIMEOUT_MS = 500
 
 
@@ -50,7 +51,15 @@ class HidTransport(QThread):
 
     def stop(self):
         self._running = False
-        self.wait(READ_TIMEOUT_MS + 500)
+        self.wait()  # unbounded: every internal wait is now interruptible,
+        # so this always returns promptly rather than needing a guessed
+        # timeout -- an earlier version used a fixed timeout here and could
+        # abort the process if _running hadn't been rechecked yet.
+
+    def _interruptible_sleep(self, seconds):
+        deadline = time.monotonic() + seconds
+        while self._running and time.monotonic() < deadline:
+            time.sleep(min(RECONNECT_POLL_S, max(0.0, deadline - time.monotonic())))
 
     def _set_connected(self, connected):
         if connected != self._connected:
@@ -66,14 +75,14 @@ class HidTransport(QThread):
             path = find_console_device_path()
             if path is None:
                 self._set_connected(False)
-                time.sleep(RECONNECT_DELAY_S)
+                self._interruptible_sleep(RECONNECT_DELAY_S)
                 continue
 
             try:
                 device = hid.Device(path=path)
             except Exception:
                 self._set_connected(False)
-                time.sleep(RECONNECT_DELAY_S)
+                self._interruptible_sleep(RECONNECT_DELAY_S)
                 continue
 
             self._set_connected(True)
