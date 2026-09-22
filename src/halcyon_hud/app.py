@@ -9,6 +9,32 @@ from .hid_transport import HidTransport
 from .hud_window import HudWindow, _log
 
 
+def _hide_from_dock():
+    """Make this a menu-bar-only "accessory" app on macOS: no Dock icon,
+    and critically, the app itself can never become the frontmost
+    application -- which is what was actually stealing keyboard focus.
+    Window-level Qt flags (WindowDoesNotAcceptFocus, WA_ShowWithoutActivating)
+    only control focus within an already-frontmost app; they can't stop the
+    whole application from becoming frontmost in the first place, which is
+    a Dock-visible "regular" app's default behavior whenever it shows any
+    window. This must run AFTER QApplication() so it reuses the same
+    NSApplication instance Qt already set up, not a second one.
+
+    For a Briefcase-packaged build, the equivalent fix is LSUIElement=True
+    in Info.plist; this covers running unpackaged via `python -m halcyon_hud`.
+    """
+    if sys.platform != "darwin":
+        return
+    try:
+        from AppKit import NSApp, NSApplicationActivationPolicyAccessory
+
+        NSApp.setActivationPolicy_(NSApplicationActivationPolicyAccessory)
+        _log("set NSApplicationActivationPolicyAccessory (no Dock icon)")
+    except ImportError:
+        _log("pyobjc not installed -- app will show in the Dock and can steal focus; "
+             "pip3 install --break-system-packages pyobjc-framework-Cocoa to fix")
+
+
 def make_tray_icon(connected: bool) -> QIcon:
     # Distinguish by SHAPE, not just color -- macOS tray icons are often
     # rendered as monochrome "template" images, which would silently
@@ -33,6 +59,7 @@ class HalcyonHudApp:
     def __init__(self):
         self.app = QApplication(sys.argv)
         self.app.setQuitOnLastWindowClosed(False)
+        _hide_from_dock()
 
         # PySide6's event loop otherwise swallows SIGINT (Ctrl-C) silently --
         # this timer just gives Python's own signal handler a chance to run.

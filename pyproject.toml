@@ -23,7 +23,13 @@ requires = [
 requires = [
     "PySide6>=6.11",
     "hid>=1.0",
+    "pyobjc-framework-Cocoa>=10.0",
 ]
+# For a packaged build, this is the more standard equivalent of the
+# runtime NSApplicationActivationPolicyAccessory call in app.py -- hides
+# the Dock icon at the bundle level. Belt and suspenders; untested, since
+# packaging itself hasn't been attempted yet (see README's Status section).
+info.LSUIElement = true
 
 [tool.briefcase.app.halcyon_hud.windows]
 requires = [
