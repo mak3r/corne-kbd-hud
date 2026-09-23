@@ -2,6 +2,8 @@
 
 A real-time overlay of the active keymap layer on a [Halcyon Corne](https://splitkb.com/products/halcyon-corne), similar in spirit to ZSA's Keymapp — but reading live layer/key state directly off the keyboard over USB HID rather than showing a static keymap.
 
+![The desktop HUD overlay showing Layer 0 (Base), colored to match the keyboard's real per-key RGB](images/hud-overlay.png)
+
 ## How it works
 
 The `mak3r` keymap in [`halcyon-corne`](https://github.com/mak3r/halcyon-corne) broadcasts the active layer number and individual keystrokes over QMK's `CONSOLE_ENABLE` USB HID interface (see that repo's `hud_console.c` and `CLAUDE.md`) — deliberately a *separate* interface from VIA/Vial's own raw HID channel, confirmed on hardware to keep vial.rocks working normally while this is also connected. This app listens on that interface and shows a small always-on-top overlay of the current layer's keys, colored to match the real keyboard's RGB, with the key currently being pressed outlined.
