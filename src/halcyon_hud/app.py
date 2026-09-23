@@ -1,3 +1,4 @@
+import ctypes
 import signal
 import sys
 
@@ -7,6 +8,37 @@ from PySide6.QtWidgets import QApplication, QMenu, QSystemTrayIcon
 
 from .hid_transport import HidTransport
 from .hud_window import HudWindow, _log
+
+
+def _request_hid_access():
+    """Explicitly trigger macOS's Input Monitoring permission prompt via
+    IOHIDRequestAccess, on the main thread, before the app is demoted to
+    an accessory (no-Dock-icon, never-foreground) app.
+
+    hidapi fires an equivalent request implicitly the first time it opens
+    a device -- but that happens from HidTransport's background QThread,
+    after _hide_from_dock() has already run. Confirmed on hardware: that
+    implicit request never produces a system prompt OR even an entry in
+    System Settings -> Privacy & Security -> Input Monitoring for this
+    app at all (not "denied", just never registered) -- apparently
+    because an accessory app that never becomes foreground can't host
+    the consent sheet. Calling this ourselves, synchronously, while the
+    app can still become foreground, is the fix; it returns immediately
+    if permission was already granted/denied in an earlier run.
+    """
+    if sys.platform != "darwin":
+        return True
+    try:
+        iokit = ctypes.CDLL("/System/Library/Frameworks/IOKit.framework/IOKit")
+        iokit.IOHIDRequestAccess.restype = ctypes.c_bool
+        iokit.IOHIDRequestAccess.argtypes = [ctypes.c_int32]
+        kIOHIDRequestTypeListenEvent = 1
+        granted = iokit.IOHIDRequestAccess(kIOHIDRequestTypeListenEvent)
+        _log(f"IOHIDRequestAccess(ListenEvent) -> granted={granted}")
+        return granted
+    except Exception as e:
+        _log(f"_request_hid_access failed: {e!r}")
+        return True
 
 
 def _hide_from_dock():
@@ -68,6 +100,7 @@ class HalcyonHudApp:
     def __init__(self):
         self.app = QApplication(sys.argv)
         self.app.setQuitOnLastWindowClosed(False)
+        _request_hid_access()
         _hide_from_dock()
 
         # PySide6's event loop otherwise swallows SIGINT (Ctrl-C) silently --
