@@ -26,6 +26,14 @@ requires = [
 # incompatible ("no matching distribution"), even though Requires-Python
 # itself is satisfied. 13.0 is the actual floor PySide6 supports here.
 min_os_version = "13.0"
+# universal2 builds pip-install requirements twice (once per arch) and lipo-merge
+# the results. On this machine the x86_64-side install silently installs nothing
+# (no x86_64 Python 3.14 toolchain available), and Briefcase's merge step then
+# silently drops several .so files instead of falling back to a copy -- notably
+# shiboken6/Shiboken.abi3.so, breaking PySide6 entirely at import time. Building
+# arm64-only skips the merge step and avoids this. Fine for personal use on
+# Apple Silicon; revisit if this ever needs to run on an Intel Mac. See #1.
+universal_build = false
 requires = [
     "PySide6>=6.11",
     "hid>=1.0",
