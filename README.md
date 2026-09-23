@@ -39,7 +39,7 @@ python3 -m halcyon_hud   # (with src/ on PYTHONPATH, or `pip install -e .` first
 
 On macOS, `hid` needs the native `hidapi` library — `brew install hidapi` if the import fails. The first time it opens the keyboard's HID interface, macOS may prompt for **Input Monitoring** permission (System Settings → Privacy & Security).
 
-A tray icon appears (teal = keyboard connected, grey = not); its menu toggles the HUD and quits the app. The HUD itself also auto-shows when you leave the base layer and auto-hides ~1.5s after returning to it.
+A tray icon appears in the menu bar (a filled teal dot = keyboard connected, a terracotta ring = not) — look at the far right of the menu bar on a wide/multi-monitor setup, since macOS only ever places status icons on the primary display's menu bar. Its menu toggles "Pin HUD Visible" and quits the app. The HUD itself also auto-shows when you leave the base layer and auto-hides ~1.5s after returning to it, unless pinned.
 
 ## Regenerating the keymap/color data
 
@@ -53,11 +53,32 @@ python3 scripts/generate_layout_data.py \
 
 Run this after editing the keymap or colors over there, then commit the regenerated JSON here.
 
-## Packaging (untested scaffold)
+## Building and deploying (macOS)
+
+Verified working end-to-end (Briefcase 0.4.5): `briefcase build` produces a real, launchable `.app`.
 
 ```bash
-pip install briefcase
-briefcase dev      # run in dev mode
-briefcase build    # build a native app
-briefcase package  # package for distribution
+python3 -m pip install --break-system-packages briefcase   # or install into a venv instead
+briefcase build
 ```
+
+This builds `build/halcyon_hud/macos/app/Halcyon Corne HUD.app`, ad-hoc signed (no Apple Developer account needed for this). To run it:
+
+```bash
+open "build/halcyon_hud/macos/app/Halcyon Corne HUD.app"
+```
+
+Or drag/copy that `.app` into `/Applications` to launch it like any normally installed app (from Spotlight/Launchpad) — it won't show up in the Dock, by design (see `app.py`'s `_hide_from_dock()`), only as the tray icon.
+
+**Gotchas already handled in this repo's `pyproject.toml`** (see `CLAUDE.md`'s "Packaging notes" for the full detail if this ever breaks):
+- Briefcase requires a PEP 639 `license`/`license-files` declaration or it refuses to build at all.
+- PySide6's macOS wheel needs `min_os_version = "13.0"` — Briefcase's default of `11.0` makes pip reject it with a confusing "no matching distribution" error.
+- If a build fails partway through and a later `briefcase build` finishes suspiciously fast, it may have silently skipped reinstalling requirements against a broken cached environment — force a clean rebuild with `rm -rf build .briefcase`.
+
+**Not set up / not needed for personal use**: `briefcase package` (a distributable signed `.dmg`/`.pkg`) requires an active Apple Developer Program membership ($99/year) for a Developer ID certificate + notarization — irrelevant unless you're planning to hand the built app to someone else to run on their own Mac. A locally-built, ad-hoc-signed `.app` like the one above runs fine on the machine that built it, since Gatekeeper's strict signature/notarization check only triggers on files carrying the "downloaded from the internet" quarantine flag.
+
+Linux (and Windows) builds are deferred — see the not-built-yet list above.
+
+## License
+
+[GPL-3.0-or-later](LICENSE). Note that `PySide6`, the main dependency, is itself LGPLv3 (or a paid commercial Qt license) — that's independent of this project's own license and applies regardless of how this code is licensed.
