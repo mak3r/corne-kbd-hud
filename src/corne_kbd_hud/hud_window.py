@@ -78,6 +78,10 @@ CORNER_RADIUS = 7
 AUTO_HIDE_LAYER = 0
 AUTO_HIDE_DELAY_MS = 1500
 
+RESIZE_HANDLE_PX = 18  # fixed screen-pixel hit/visual size, not scaled
+MIN_SCALE = 0.6
+MAX_SCALE = 2.2
+
 BG_UNLIT = QColor(38, 42, 53)
 BORDER = QColor(54, 60, 74)
 TEXT_LIGHT = QColor(243, 244, 248)
@@ -128,17 +132,22 @@ class HudWindow(QWidget):
         self._pinned = False
         self._pressed_rc = set()
         self._drag_offset = None
+        self._resize_start_global = None
+        self._resize_start_scale = None
+        self.setMouseTracking(True)  # needed for hover-only cursor updates over the resize handle
 
         self._auto_hide_timer = QTimer(self)
         self._auto_hide_timer.setSingleShot(True)
         self._auto_hide_timer.timeout.connect(lambda: self._native_hide())
 
         width_units, height_units = bounding_size()
-        w = int(width_units * (KEY_SIZE + GAP) + MARGIN * 2)
-        h = int(height_units * (KEY_SIZE + GAP) + MARGIN * 2)
-        self.setFixedSize(w, h)
+        self._base_w = int(width_units * (KEY_SIZE + GAP) + MARGIN * 2)
+        self._base_h = int(height_units * (KEY_SIZE + GAP) + MARGIN * 2)
 
         self._settings = QSettings("mak3r", "CorneHUD")
+        self._scale = self._restore_scale()
+        self.setFixedSize(round(self._base_w * self._scale), round(self._base_h * self._scale))
+
         self._restore_position()
 
         self._key_by_rc = {}
@@ -221,18 +230,74 @@ class HudWindow(QWidget):
     def _save_position(self):
         self._settings.setValue("window_pos", self.pos())
 
+    def _restore_scale(self):
+        saved = self._settings.value("window_scale")
+        if saved is None:
+            return 1.0
+        try:
+            return max(MIN_SCALE, min(MAX_SCALE, float(saved)))
+        except (TypeError, ValueError):
+            return 1.0
+
+    def _save_scale(self):
+        self._settings.setValue("window_scale", self._scale)
+
+    def _resize_to_scale(self, scale):
+        scale = max(MIN_SCALE, min(MAX_SCALE, scale))
+        if scale == self._scale:
+            return
+        self._scale = scale
+        # Top-left corner (self.pos()) stays fixed; only size grows/shrinks
+        # from there -- the conventional bottom-right-handle resize behavior.
+        self.setFixedSize(round(self._base_w * scale), round(self._base_h * scale))
+        self.update()
+
+    def _resize_handle_rect(self):
+        return QRectF(
+            self.width() - RESIZE_HANDLE_PX, self.height() - RESIZE_HANDLE_PX,
+            RESIZE_HANDLE_PX, RESIZE_HANDLE_PX,
+        )
+
     def mousePressEvent(self, event):
-        if event.button() == Qt.LeftButton:
-            self._drag_offset = event.globalPosition().toPoint() - self.pos()
+        if event.button() != Qt.LeftButton:
+            return
+        if self._resize_handle_rect().contains(event.position()):
+            self._resize_start_global = event.globalPosition().toPoint()
+            self._resize_start_scale = self._scale
             event.accept()
+            return
+        self._drag_offset = event.globalPosition().toPoint() - self.pos()
+        event.accept()
 
     def mouseMoveEvent(self, event):
+        if self._resize_start_global is not None:
+            delta = event.globalPosition().toPoint() - self._resize_start_global
+            # Uniform scale driven by the average of both axes' drag
+            # distance, relative to the unscaled base size -- so dragging
+            # mostly rightward or mostly downward both resize sensibly.
+            d_scale = ((delta.x() / self._base_w) + (delta.y() / self._base_h)) / 2
+            self._resize_to_scale(self._resize_start_scale + d_scale)
+            event.accept()
+            return
         if event.buttons() & Qt.LeftButton and self._drag_offset is not None:
             self.move(event.globalPosition().toPoint() - self._drag_offset)
             event.accept()
+            return
+        # Hover only (no button held): swap in a resize cursor over the handle.
+        if self._resize_handle_rect().contains(event.position()):
+            self.setCursor(Qt.SizeFDiagCursor)
+        else:
+            self.unsetCursor()
 
     def mouseReleaseEvent(self, event):
-        if event.button() == Qt.LeftButton and self._drag_offset is not None:
+        if event.button() != Qt.LeftButton:
+            return
+        if self._resize_start_global is not None:
+            self._resize_start_global = None
+            self._save_scale()
+            event.accept()
+            return
+        if self._drag_offset is not None:
             self._drag_offset = None
             self._save_position()
             event.accept()
@@ -299,9 +364,16 @@ class HudWindow(QWidget):
         painter = QPainter(self)
         painter.setRenderHint(QPainter.Antialiasing)
 
+        # Everything below is drawn in fixed "base" (scale=1.0) units and
+        # scaled up/down as a whole by this transform -- keeps the physical
+        # key layout's proportions correct at any zoom level, rather than
+        # independently stretching width/height.
+        painter.save()
+        painter.scale(self._scale, self._scale)
+
         # Panel background.
         panel = QPainterPath()
-        panel.addRoundedRect(QRectF(0, 0, self.width(), self.height()), 12, 12)
+        panel.addRoundedRect(QRectF(0, 0, self._base_w, self._base_h), 12, 12)
         painter.fillPath(panel, QColor(15, 17, 21, 235))
 
         font = QFont("Menlo" if self._has_font("Menlo") else "Monospace")
@@ -356,17 +428,33 @@ class HudWindow(QWidget):
         painter.setFont(header_font)
         layer_name = self._layers[self._layer_index]["name"]
         painter.drawText(
-            QRectF(MARGIN, 2, self.width() - MARGIN * 2, 16),
+            QRectF(MARGIN, 2, self._base_w - MARGIN * 2, 16),
             Qt.AlignLeft | Qt.AlignVCenter,
             f"Layer {self._layer_index} · {layer_name}",
         )
         if not self._connected:
             painter.setPen(QColor(224, 113, 107))
             painter.drawText(
-                QRectF(MARGIN, 2, self.width() - MARGIN * 2, 16),
+                QRectF(MARGIN, 2, self._base_w - MARGIN * 2, 16),
                 Qt.AlignRight | Qt.AlignVCenter,
                 "disconnected",
             )
+
+        painter.restore()  # undo the scale transform
+        self._draw_resize_grip(painter)
+
+    def _draw_resize_grip(self, painter):
+        # Fixed screen-pixel size (deliberately NOT scaled, unlike everything
+        # above) -- three short diagonal lines in the bottom-right corner,
+        # the conventional resize-handle affordance, matching the fixed-size
+        # hit region in _resize_handle_rect().
+        x1, y1 = self.width() - 4, self.height() - 4
+        pen = painter.pen()
+        pen.setColor(QColor(120, 126, 140, 200))
+        pen.setWidth(1)
+        painter.setPen(pen)
+        for offset in (4, 9, 14):
+            painter.drawLine(x1 - offset, y1, x1, y1 - offset)
 
     @staticmethod
     def _has_font(name):
