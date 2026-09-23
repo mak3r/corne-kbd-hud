@@ -678,6 +678,17 @@ Public License instead of this License.  But first, please read
     Corne HUD
     Copyright (C) 2024-present Mark Abrams
 
+    GPLv3-or-later was chosen deliberately over a permissive license
+    (this project started as Apache-2.0) so this can't be resold or
+    repackaged as closed-source. It also matches the sibling
+    halcyon-corne firmware repo's own GPLv3-or-later license -- that
+    repo specifically needs v3, not v2, because Halcyon Corne rev2's
+    RP2040 (ARM) processor builds through ChibiOS, which is itself
+    GPLv3-licensed; keeping this repo aligned avoids any future
+    cross-repo license-compatibility friction between the two, even
+    though they're separate programs (not a combined/linked work) and
+    that friction wasn't a hard legal blocker either way.
+
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
