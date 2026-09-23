@@ -43,6 +43,10 @@ Showing the HUD used to steal keyboard focus from whatever app the user was typi
 
 If this needs revisiting (e.g. porting to Windows/Linux, where this whole mechanism doesn't apply): the fix is entirely inside `_native_show()` in `hud_window.py`; `_native_hide()`/`orderOut_()` never had this problem since hiding a window doesn't activate anything.
 
+## macOS all-Spaces visibility
+
+By default an `NSWindow` only shows on the Space (virtual desktop) it was last shown on — there's no OS-level setting for this on an app with no Dock icon, since the usual Mission Control "Assign To -> All Desktops" option lives on a Dock icon's right-click menu. Fixed in `_set_collection_behavior_all_spaces()` (called once, right after acquiring the native `NSWindow` in `HudWindow.__init__`) by setting `NSWindow.collectionBehavior` to `NSWindowCollectionBehaviorCanJoinAllSpaces | NSWindowCollectionBehaviorStationary | NSWindowCollectionBehaviorFullScreenAuxiliary` — the same technique apps like Keymapp use. All three flags matter: `CanJoinAllSpaces` alone isn't enough to show over a Space occupied by a native full-screened app (`FullScreenAuxiliary` is also required for that), and without `Stationary` the window can visibly animate/relocate during a Space-switch transition instead of just staying put.
+
 ## Packaging notes
 
 `briefcase build` (macOS) is verified working end to end (Briefcase 0.4.5, real launchable `.app` produced, smoke-tested, and confirmed connecting to real hardware). Several gotchas hit getting there, worth knowing if this breaks again:

@@ -40,6 +40,32 @@ def _native_ns_window(widget):
         return None
 
 
+def _set_collection_behavior_all_spaces(ns_window):
+    """Make the overlay follow across every Space/virtual desktop, and even
+    show over apps in native full-screen mode -- the same NSWindow
+    technique apps like Keymapp use for an always-visible utility overlay.
+    There's no OS-level setting for this on an app with no Dock icon (the
+    usual Mission Control "Assign To -> All Desktops" option lives on a
+    Dock icon's right-click menu, which this app deliberately doesn't
+    have); it has to be requested by the window itself. Without this, a
+    window only ever shows on the Space it was last shown on."""
+    try:
+        from AppKit import (
+            NSWindowCollectionBehaviorCanJoinAllSpaces,
+            NSWindowCollectionBehaviorFullScreenAuxiliary,
+            NSWindowCollectionBehaviorStationary,
+        )
+
+        ns_window.setCollectionBehavior_(
+            NSWindowCollectionBehaviorCanJoinAllSpaces
+            | NSWindowCollectionBehaviorStationary
+            | NSWindowCollectionBehaviorFullScreenAuxiliary
+        )
+        _log("set NSWindowCollectionBehavior for all-Spaces visibility")
+    except Exception as e:
+        _log(f"_set_collection_behavior_all_spaces failed: {e!r}")
+
+
 from .keyboard_layout import bounding_size, compute_positions
 
 DATA_PATH = Path(__file__).parent / "data" / "mak3r_layers.json"
@@ -128,6 +154,7 @@ class HudWindow(QWidget):
         self._ns_window = _native_ns_window(self)
         if self._ns_window is not None:
             self._ns_window.orderOut_(None)  # screen-hidden; Qt still thinks "shown"
+            _set_collection_behavior_all_spaces(self._ns_window)
         else:
             self.hide()  # no native handle available -- fall back to Qt's own tracking
         _log(f"native NSWindow acquired: {self._ns_window is not None}")

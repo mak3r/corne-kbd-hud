@@ -42,6 +42,7 @@ The HUD itself:
 - Auto-shows when you leave the base layer and auto-hides ~1.5s after returning to it, unless pinned.
 - Is movable — click and drag it anywhere; the position is remembered across restarts.
 - Highlights each key with a white outline while it's physically held down — a visual checkpoint while learning a new layout.
+- Stays visible across every macOS Space/virtual desktop, including over apps in native full-screen mode — the same `NSWindowCollectionBehavior` technique apps like Keymapp use (see `hud_window.py`'s `_set_collection_behavior_all_spaces()`).
 
 ## Regenerating the keymap/color data
 
