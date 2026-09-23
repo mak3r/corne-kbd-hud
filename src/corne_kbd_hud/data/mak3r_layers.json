@@ -659,7 +659,7 @@
         "r": 1,
         "c": 0,
         "kc": "LSFT(KC_GRAVE)",
-        "label": "\u21e7`",
+        "label": "~",
         "modtap": false,
         "hsv": [
           152,
@@ -671,7 +671,7 @@
         "r": 1,
         "c": 1,
         "kc": "LSFT(KC_1)",
-        "label": "\u21e71",
+        "label": "!",
         "modtap": false,
         "hsv": [
           152,
@@ -683,7 +683,7 @@
         "r": 1,
         "c": 2,
         "kc": "LSFT(KC_2)",
-        "label": "\u21e72",
+        "label": "@",
         "modtap": false,
         "hsv": [
           152,
@@ -695,7 +695,7 @@
         "r": 1,
         "c": 3,
         "kc": "LSFT(KC_3)",
-        "label": "\u21e73",
+        "label": "#",
         "modtap": false,
         "hsv": [
           152,
@@ -707,7 +707,7 @@
         "r": 1,
         "c": 4,
         "kc": "LSFT(KC_4)",
-        "label": "\u21e74",
+        "label": "$",
         "modtap": false,
         "hsv": [
           152,
@@ -719,7 +719,7 @@
         "r": 1,
         "c": 5,
         "kc": "LSFT(KC_5)",
-        "label": "\u21e75",
+        "label": "%",
         "modtap": false,
         "hsv": [
           152,
@@ -731,7 +731,7 @@
         "r": 6,
         "c": 5,
         "kc": "LSFT(KC_6)",
-        "label": "\u21e76",
+        "label": "^",
         "modtap": false,
         "hsv": [
           152,
@@ -743,7 +743,7 @@
         "r": 6,
         "c": 4,
         "kc": "LSFT(KC_7)",
-        "label": "\u21e77",
+        "label": "&",
         "modtap": false,
         "hsv": [
           152,
@@ -755,7 +755,7 @@
         "r": 6,
         "c": 3,
         "kc": "LSFT(KC_8)",
-        "label": "\u21e78",
+        "label": "*",
         "modtap": false,
         "hsv": [
           152,
@@ -767,7 +767,7 @@
         "r": 6,
         "c": 2,
         "kc": "LSFT(KC_9)",
-        "label": "\u21e79",
+        "label": "(",
         "modtap": false,
         "hsv": [
           152,
@@ -779,7 +779,7 @@
         "r": 6,
         "c": 1,
         "kc": "LSFT(KC_0)",
-        "label": "\u21e70",
+        "label": ")",
         "modtap": false,
         "hsv": [
           152,
@@ -863,7 +863,7 @@
         "r": 2,
         "c": 5,
         "kc": "LSFT(KC_MINUS)",
-        "label": "\u21e7-",
+        "label": "_",
         "modtap": false,
         "hsv": [
           152,
@@ -875,7 +875,7 @@
         "r": 7,
         "c": 5,
         "kc": "LSFT(KC_EQUAL)",
-        "label": "\u21e7=",
+        "label": "+",
         "modtap": false,
         "hsv": [
           152,
@@ -887,7 +887,7 @@
         "r": 7,
         "c": 4,
         "kc": "LSFT(KC_LBRC)",
-        "label": "\u21e7[",
+        "label": "{",
         "modtap": false,
         "hsv": [
           152,
@@ -899,7 +899,7 @@
         "r": 7,
         "c": 3,
         "kc": "LSFT(KC_RBRC)",
-        "label": "\u21e7]",
+        "label": "}",
         "modtap": false,
         "hsv": [
           152,
@@ -911,7 +911,7 @@
         "r": 7,
         "c": 2,
         "kc": "LSFT(KC_BSLS)",
-        "label": "\u21e7\\",
+        "label": "|",
         "modtap": false,
         "hsv": [
           152,

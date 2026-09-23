@@ -53,6 +53,18 @@ MOD_SYMS = {
     "SGUI": "⇧⌘", "SCTL": "⇧⌃", "SALT": "⇧⌥",
     "MEH": "⌃⌥⇧", "HYPR": "⌃⌥⇧⌘",
 }
+# Standard US QWERTY shifted symbols -- for plain LSFT/RSFT(KC_x) only, where
+# the key produces a genuinely different character (KC_1 -> "!"), not a
+# modifier shortcut. Multi-modifier combos like SGUI/LCTL/LGUI are real
+# shortcuts (Cmd+C, Shift+Cmd+4) and should keep showing as symbol+key, not
+# be run through this table.
+SHIFT_SYMBOLS = {
+    "1": "!", "2": "@", "3": "#", "4": "$", "5": "%",
+    "6": "^", "7": "&", "8": "*", "9": "(", "0": ")",
+    "GRAVE": "~", "MINUS": "_", "EQUAL": "+",
+    "LBRC": "{", "RBRC": "}", "BSLS": "|",
+    "SCLN": ":", "QUOTE": "\"", "COMMA": "<", "DOT": ">", "SLASH": "?",
+}
 FIXUPS = {
     "KC_LSHIFT": "KC_LSFT", "KC_RSHIFT": "KC_RSFT", "KC_BSPACE": "KC_BSPC",
     "KC_SCOLON": "KC_SCLN", "KC_LBRACKET": "KC_LBRC", "KC_RBRACKET": "KC_RBRC",
@@ -94,6 +106,8 @@ def short_label(kc):
     m = re.match(r"^([A-Z_]+)\(KC_(\w+)\)$", kc)
     if m:
         prefix, inner = m.group(1), m.group(2)
+        if prefix in ("LSFT", "RSFT") and inner in SHIFT_SYMBOLS:
+            return SHIFT_SYMBOLS[inner]
         sym = MOD_SYMS.get(prefix, prefix + "+")
         return f"{sym}{plain_kc_label(inner)}"
     if kc.startswith("KC_"):
