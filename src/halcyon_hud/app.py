@@ -119,6 +119,7 @@ class HalcyonHudApp:
 
         self.transport = HidTransport()
         self.transport.layerChanged.connect(self.hud.set_layer)
+        self.transport.keyEvent.connect(self.hud.set_key_state)
         self.transport.connectionChanged.connect(self._on_connection_changed)
         self.app.aboutToQuit.connect(self.transport.stop)
 

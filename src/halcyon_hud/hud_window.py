@@ -7,7 +7,7 @@ import sys
 import time
 from pathlib import Path
 
-from PySide6.QtCore import QEvent, QRectF, Qt, QTimer
+from PySide6.QtCore import QEvent, QPoint, QRectF, QSettings, Qt, QTimer
 from PySide6.QtGui import QColor, QFont, QFontMetrics, QPainter, QPainterPath
 from PySide6.QtWidgets import QWidget
 
@@ -56,6 +56,7 @@ BG_UNLIT = QColor(38, 42, 53)
 BORDER = QColor(54, 60, 74)
 TEXT_LIGHT = QColor(243, 244, 248)
 TEXT_DARK = QColor(20, 21, 26)
+PRESSED_OUTLINE = QColor(255, 255, 255)
 
 
 def hsv_to_qcolor(hsv):
@@ -99,6 +100,8 @@ class HudWindow(QWidget):
         self._layer_index = 0
         self._connected = False
         self._pinned = False
+        self._pressed_rc = set()
+        self._drag_offset = None
 
         self._auto_hide_timer = QTimer(self)
         self._auto_hide_timer.setSingleShot(True)
@@ -108,7 +111,9 @@ class HudWindow(QWidget):
         w = int(width_units * (KEY_SIZE + GAP) + MARGIN * 2)
         h = int(height_units * (KEY_SIZE + GAP) + MARGIN * 2)
         self.setFixedSize(w, h)
-        self._place_bottom_right()
+
+        self._settings = QSettings("mak3r", "HalcyonCorneHUD")
+        self._restore_position()
 
         self._key_by_rc = {}
         self._rebuild_key_lookup()
@@ -171,12 +176,57 @@ class HudWindow(QWidget):
         screen = self.screen().availableGeometry()
         self.move(screen.right() - self.width() - 24, screen.bottom() - self.height() - 24)
 
+    def _restore_position(self):
+        """Use the last dragged-to position if one was saved and it's still
+        roughly on-screen (e.g. a monitor that was unplugged since last
+        run) -- otherwise fall back to the original bottom-right default."""
+        saved = self._settings.value("window_pos")
+        if saved is not None:
+            point = saved if isinstance(saved, QPoint) else QPoint(*saved)
+            for screen in self.screen().virtualSiblings():
+                if screen.availableGeometry().intersects(
+                    QRectF(point.x(), point.y(), self.width(), self.height()).toRect()
+                ):
+                    self.move(point)
+                    return
+        self._place_bottom_right()
+
+    def _save_position(self):
+        self._settings.setValue("window_pos", self.pos())
+
+    def mousePressEvent(self, event):
+        if event.button() == Qt.LeftButton:
+            self._drag_offset = event.globalPosition().toPoint() - self.pos()
+            event.accept()
+
+    def mouseMoveEvent(self, event):
+        if event.buttons() & Qt.LeftButton and self._drag_offset is not None:
+            self.move(event.globalPosition().toPoint() - self._drag_offset)
+            event.accept()
+
+    def mouseReleaseEvent(self, event):
+        if event.button() == Qt.LeftButton and self._drag_offset is not None:
+            self._drag_offset = None
+            self._save_position()
+            event.accept()
+
     def _rebuild_key_lookup(self):
         layer = self._layers[self._layer_index]
         self._key_by_rc = {(k["r"], k["c"]): k for k in layer["keys"]}
 
     def set_connected(self, connected: bool):
         self._connected = connected
+        self.update()
+
+    def set_key_state(self, row: int, col: int, pressed: bool):
+        """Highlight a key while it's physically held down, as a visual
+        checkpoint while learning a new layout -- driven by the firmware's
+        per-keystroke KEY:<row>,<col>,<pressed> broadcast (see
+        hid_transport.py), not just layer changes."""
+        if pressed:
+            self._pressed_rc.add((row, col))
+        else:
+            self._pressed_rc.discard((row, col))
         self.update()
 
     def set_pinned(self, pinned: bool):
@@ -251,7 +301,15 @@ class HudWindow(QWidget):
 
             fill = hsv_to_qcolor(key.get("hsv")) or BG_UNLIT
             painter.fillPath(path, fill)
-            painter.setPen(BORDER)
+
+            is_pressed = (pos.row, pos.col) in self._pressed_rc
+            if is_pressed:
+                pen = painter.pen()
+                pen.setColor(PRESSED_OUTLINE)
+                pen.setWidth(2)
+                painter.setPen(pen)
+            else:
+                painter.setPen(BORDER)
             painter.drawPath(path)
 
             painter.setPen(text_color_for(fill))

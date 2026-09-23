@@ -107,9 +107,12 @@ def find_console_device_path():
 class HidTransport(QThread):
     """Background thread: connects to the console interface, parses
     incoming lines, and emits layerChanged(int) whenever "LAYER:<n>"
-    arrives. Emits connectionChanged(bool) when the device is found/lost."""
+    arrives, or keyEvent(row, col, pressed) whenever "KEY:<row>,<col>,<0|1>"
+    arrives (see halcyon-corne's hud_console.c). Emits connectionChanged(bool)
+    when the device is found/lost."""
 
     layerChanged = Signal(int)
+    keyEvent = Signal(int, int, bool)
     connectionChanged = Signal(bool)
 
     def __init__(self, parent=None):
@@ -188,3 +191,9 @@ class HidTransport(QThread):
             except ValueError:
                 return
             self.layerChanged.emit(layer)
+        elif text.startswith("KEY:"):
+            try:
+                row_str, col_str, pressed_str = text.split(":", 1)[1].split(",")
+                self.keyEvent.emit(int(row_str), int(col_str), pressed_str == "1")
+            except ValueError:
+                return
