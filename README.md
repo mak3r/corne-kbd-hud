@@ -68,12 +68,15 @@ This builds `build/halcyon_hud/macos/app/Halcyon Corne HUD.app`, ad-hoc signed (
 open "build/halcyon_hud/macos/app/Halcyon Corne HUD.app"
 ```
 
-Or drag/copy that `.app` into `/Applications` to launch it like any normally installed app (from Spotlight/Launchpad) — it won't show up in the Dock, by design (see `app.py`'s `_hide_from_dock()`), only as the tray icon.
+Or drag/copy that `.app` into `/Applications` to launch it like any normally installed app (from Spotlight/Launchpad) — it won't show up in the Dock, by design (see `app.py`'s `_hide_from_dock()`), only as the tray icon. **After every rebuild**, re-copy it over the `/Applications` copy — `briefcase build` only updates the one under `build/`, so the deployed copy goes stale otherwise.
 
-**Gotchas already handled in this repo's `pyproject.toml`** (see `CLAUDE.md`'s "Packaging notes" for the full detail if this ever breaks):
+The first launch after a fresh rebuild may show a **"Halcyon Corne HUD would like to receive keystrokes from any application"** system prompt (Input Monitoring) — click **Open System Settings** and enable it, then quit and reopen the app for the grant to take effect. Because the app is only ad-hoc signed (no paid Apple Developer account), macOS treats each fresh build as a new app for permission purposes, so this can recur after rebuilds.
+
+**Gotchas already handled in this repo's code** (see `CLAUDE.md`'s "Packaging notes" for the full detail if this ever breaks):
 - Briefcase requires a PEP 639 `license`/`license-files` declaration or it refuses to build at all.
 - PySide6's macOS wheel needs `min_os_version = "13.0"` — Briefcase's default of `11.0` makes pip reject it with a confusing "no matching distribution" error.
 - If a build fails partway through and a later `briefcase build` finishes suspiciously fast, it may have silently skipped reinstalling requirements against a broken cached environment — force a clean rebuild with `rm -rf build .briefcase`.
+- The packaged app can't find Homebrew's native `hid` library by default (shows permanently "disconnected") — `hid_transport.py` works around this by loading it explicitly rather than relying on the OS's default search.
 
 **Not set up / not needed for personal use**: `briefcase package` (a distributable signed `.dmg`/`.pkg`) requires an active Apple Developer Program membership ($99/year) for a Developer ID certificate + notarization — irrelevant unless you're planning to hand the built app to someone else to run on their own Mac. A locally-built, ad-hoc-signed `.app` like the one above runs fine on the machine that built it, since Gatekeeper's strict signature/notarization check only triggers on files carrying the "downloaded from the internet" quarantine flag.
 
