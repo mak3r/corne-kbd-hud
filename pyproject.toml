@@ -7,7 +7,7 @@ bundle = "com.mak3r"
 version = "0.1.0"
 url = "https://github.com/mak3r/halcyon-corne-hud"
 author = "Mark Abrams"
-license = "Apache-2.0"
+license = "GPL-3.0-or-later"
 license-files = ["LICENSE"]
 
 [tool.briefcase.app.halcyon_hud]
