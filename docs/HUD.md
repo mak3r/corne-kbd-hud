@@ -19,9 +19,9 @@ firmware (layer_state_set_user / process_record_user)
 
 The two repos are tightly coupled — this app can only show what the firmware actually broadcasts, so an older firmware build won't have data a newer HUD app version expects. Check this table before pairing a specific release of each:
 
-| `halcyon-corne-hud` | requires `halcyon-corne` | why |
+| `corne-kbd-hud` | requires `halcyon-corne` | why |
 |---|---|---|
-| [v0.1.0](https://github.com/mak3r/halcyon-corne-hud/releases/tag/v0.1.0) | [v0.1.0-mak3r](https://github.com/mak3r/halcyon-corne/releases/tag/v0.1.0-mak3r) or later | `v0.1.0-mak3r` is the first firmware release broadcasting `KEY:` (per-keystroke) messages, which this HUD version relies on for its press-highlight feature — older `mak3r` builds only sent `LAYER:`. |
+| [v0.1.0](https://github.com/mak3r/corne-kbd-hud/releases/tag/v0.1.0) | [v0.1.0-mak3r](https://github.com/mak3r/halcyon-corne/releases/tag/v0.1.0-mak3r) or later | `v0.1.0-mak3r` is the first firmware release broadcasting `KEY:` (per-keystroke) messages, which this HUD version relies on for its press-highlight feature — older `mak3r` builds only sent `LAYER:`. |
 
 *(Keep this table's rows in sync with the identical copy in `halcyon-corne`'s own `docs/HUD.md` whenever a new paired release goes out on either side.)*
 
