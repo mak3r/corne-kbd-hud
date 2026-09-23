@@ -4,6 +4,8 @@ A real-time keymap layer viewer for a [Halcyon Corne](https://splitkb.com/produc
 
 Sibling project to [`halcyon-corne`](https://github.com/mak3r/halcyon-corne) (the firmware). Scoped to the Corne for now; the transport layer is written so a ZMK board could plug in later without changing the HUD/rendering code, but that's unbuilt and not a near-term goal.
 
+![The desktop HUD overlay showing Layer 0 (Base), colored to match the keyboard's real per-key RGB](docs/images/hud-overlay.png)
+
 ## Docs
 
 - **[docs/HUD.md](docs/HUD.md)** — how the HUD works, how to run/build/deploy it, and **which HUD release pairs with which `halcyon-corne` release** (the two repos are tightly coupled).
