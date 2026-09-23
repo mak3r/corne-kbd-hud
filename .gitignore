@@ -5,6 +5,7 @@ venv/
 build/
 dist/
 *.egg-info/
+.DS_Store
 
 # Briefcase build output
 macOS/
