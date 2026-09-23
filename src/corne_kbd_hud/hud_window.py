@@ -138,7 +138,7 @@ class HudWindow(QWidget):
         h = int(height_units * (KEY_SIZE + GAP) + MARGIN * 2)
         self.setFixedSize(w, h)
 
-        self._settings = QSettings("mak3r", "HalcyonCorneHUD")
+        self._settings = QSettings("mak3r", "CorneHUD")
         self._restore_position()
 
         self._key_by_rc = {}

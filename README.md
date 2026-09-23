@@ -1,4 +1,4 @@
-# Halcyon Corne HUD
+# Corne HUD
 
 A real-time keymap layer viewer for a [Halcyon Corne](https://splitkb.com/products/halcyon-corne) — similar in spirit to ZSA's Keymapp, but reading live layer state directly off the keyboard over USB HID rather than just showing a static keymap.
 

@@ -8,4 +8,4 @@ It's not part of this repo: its source and full documentation live in [`halcyon-
 
 ## Why it's relevant here
 
-This app doesn't read colors live from the keyboard — it renders from `src/halcyon_hud/data/mak3r_layers.json`, generated from `halcyon-corne`'s `rgb_layers.csv` (the same file the palette editor writes to). After picking new colors there, regenerate this repo's copy of the data — see [docs/HUD.md](HUD.md#regenerating-the-keymapcolor-data) — and commit the result here, or this app's colors will drift out of sync with what's actually on the keyboard.
+This app doesn't read colors live from the keyboard — it renders from `src/corne_kbd_hud/data/mak3r_layers.json`, generated from `halcyon-corne`'s `rgb_layers.csv` (the same file the palette editor writes to). After picking new colors there, regenerate this repo's copy of the data — see [docs/HUD.md](HUD.md#regenerating-the-keymapcolor-data) — and commit the result here, or this app's colors will drift out of sync with what's actually on the keyboard.

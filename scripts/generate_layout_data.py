@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Regenerate src/halcyon_hud/data/mak3r_layers.json from the halcyon-corne
+"""Regenerate src/corne_kbd_hud/data/mak3r_layers.json from the halcyon-corne
 repo's own sources: a Vial export (.vil) for keycodes/layout, and
 rgb_layers.csv for the real per-key colors. Mirrors the conversion logic
 in halcyon-corne's generate_keymap_from_vil.py / generate_ledmap.py --
@@ -18,7 +18,7 @@ import re
 from pathlib import Path
 
 HERE = Path(__file__).parent
-OUT_PATH = HERE.parent / "src" / "halcyon_hud" / "data" / "mak3r_layers.json"
+OUT_PATH = HERE.parent / "src" / "corne_kbd_hud" / "data" / "mak3r_layers.json"
 
 LAYER_NAMES = ["Base", "Symbols", "Nav", "Function", "Return", "Return2", "Unused", "Unused"]
 

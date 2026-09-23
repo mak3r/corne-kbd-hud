@@ -2,7 +2,7 @@
 requires = ["briefcase"]
 
 [tool.briefcase]
-project_name = "Halcyon Corne HUD"
+project_name = "Corne HUD"
 bundle = "com.mak3r"
 version = "0.1.0"
 url = "https://github.com/mak3r/corne-kbd-hud"
@@ -10,17 +10,17 @@ author = "Mark Abrams"
 license = "GPL-3.0-or-later"
 license-files = ["LICENSE"]
 
-[tool.briefcase.app.halcyon_hud]
-formal_name = "Halcyon Corne HUD"
+[tool.briefcase.app.corne_kbd_hud]
+formal_name = "Corne HUD"
 description = "Real-time keymap layer viewer for the Halcyon Corne"
 long_description = "A real-time keymap layer viewer for the Halcyon Corne, reading layer state over USB HID."
-sources = ["src/halcyon_hud"]
+sources = ["src/corne_kbd_hud"]
 requires = [
     "PySide6>=6.11",
     "hid>=1.0",
 ]
 
-[tool.briefcase.app.halcyon_hud.macOS]
+[tool.briefcase.app.corne_kbd_hud.macOS]
 # PySide6's macOS wheel (6.11.2+) is built with a macosx_13_0 platform tag --
 # Briefcase's default min_os_version of 11.0 makes pip reject it as
 # incompatible ("no matching distribution"), even though Requires-Python
@@ -37,13 +37,13 @@ requires = [
 # packaging itself hasn't been attempted yet (see README's Status section).
 info.LSUIElement = true
 
-[tool.briefcase.app.halcyon_hud.windows]
+[tool.briefcase.app.corne_kbd_hud.windows]
 requires = [
     "PySide6>=6.11",
     "hid>=1.0",
 ]
 
-[tool.briefcase.app.halcyon_hud.linux]
+[tool.briefcase.app.corne_kbd_hud.linux]
 requires = [
     "PySide6>=6.11",
     "hid>=1.0",

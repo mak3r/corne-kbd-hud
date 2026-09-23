@@ -53,7 +53,7 @@ def _hide_from_dock():
     NSApplication instance Qt already set up, not a second one.
 
     For a Briefcase-packaged build, the equivalent fix is LSUIElement=True
-    in Info.plist; this covers running unpackaged via `python -m halcyon_hud`.
+    in Info.plist; this covers running unpackaged via `python -m corne_kbd_hud`.
     """
     if sys.platform != "darwin":
         return
@@ -96,7 +96,7 @@ def make_tray_icon(connected: bool) -> QIcon:
     return QIcon(pixmap)
 
 
-class HalcyonHudApp:
+class CorneHudApp:
     def __init__(self):
         self.app = QApplication(sys.argv)
         self.app.setQuitOnLastWindowClosed(False)
@@ -125,7 +125,7 @@ class HalcyonHudApp:
 
         self.tray = QSystemTrayIcon()
         self.tray.setIcon(make_tray_icon(connected=False))
-        self.tray.setToolTip("Halcyon Corne HUD")
+        self.tray.setToolTip("Corne HUD")
 
         # Every QAction/QMenu needs a Python-side reference kept alive for
         # the app's lifetime (self.foo, not a local var) -- PySide's
@@ -187,7 +187,7 @@ class HalcyonHudApp:
     def _on_connection_changed(self, connected: bool):
         self.hud.set_connected(connected)
         self.tray.setIcon(make_tray_icon(connected))
-        self.tray.setToolTip("Halcyon Corne HUD -- connected" if connected else "Halcyon Corne HUD -- not connected")
+        self.tray.setToolTip("Corne HUD -- connected" if connected else "Corne HUD -- not connected")
 
     def _toggle_hud(self):
         pinned = not self._pinned
@@ -201,7 +201,7 @@ class HalcyonHudApp:
 
 
 def main():
-    app = HalcyonHudApp()
+    app = CorneHudApp()
     sys.exit(app.run())
 
 

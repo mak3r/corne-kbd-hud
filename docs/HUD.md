@@ -33,7 +33,7 @@ Running this app against older firmware than its table row lists won't crash any
 python3 -m venv .venv
 source .venv/bin/activate
 pip install PySide6 hid
-python3 -m halcyon_hud   # (with src/ on PYTHONPATH, or `pip install -e .` first)
+python3 -m corne_kbd_hud   # (with src/ on PYTHONPATH, or `pip install -e .` first)
 ```
 
 On macOS, `hid` needs the native `hidapi` library — `brew install hidapi` if the import fails. The first time it opens the keyboard's HID interface, macOS may prompt for **Input Monitoring** permission (System Settings → Privacy & Security).
@@ -48,7 +48,7 @@ The HUD itself:
 
 ## Regenerating the keymap/color data
 
-`src/halcyon_hud/data/mak3r_layers.json` (keycodes + real per-key colors) is generated from `halcyon-corne`'s own sources, not hand-maintained — this includes colors from the [Corne Palette Editor](PALETTE_EDITOR.md):
+`src/corne_kbd_hud/data/mak3r_layers.json` (keycodes + real per-key colors) is generated from `halcyon-corne`'s own sources, not hand-maintained — this includes colors from the [Corne Palette Editor](PALETTE_EDITOR.md):
 
 ```bash
 python3 scripts/generate_layout_data.py \
@@ -67,15 +67,15 @@ python3 -m pip install --break-system-packages briefcase   # or install into a v
 briefcase build
 ```
 
-This builds `build/halcyon_hud/macos/app/Halcyon Corne HUD.app`, ad-hoc signed (no Apple Developer account needed for this). To run it:
+This builds `build/corne_kbd_hud/macos/app/Corne HUD.app`, ad-hoc signed (no Apple Developer account needed for this). To run it:
 
 ```bash
-open "build/halcyon_hud/macos/app/Halcyon Corne HUD.app"
+open "build/corne_kbd_hud/macos/app/Corne HUD.app"
 ```
 
 Or drag/copy that `.app` into `/Applications` to launch it like any normally installed app (from Spotlight/Launchpad) — it won't show up in the Dock, by design (see `app.py`'s `_hide_from_dock()`), only as the tray icon. **After every rebuild**, re-copy it over the `/Applications` copy — `briefcase build` only updates the one under `build/`, so the deployed copy goes stale otherwise.
 
-The first launch after a fresh rebuild may show a **"Halcyon Corne HUD would like to receive keystrokes from any application"** system prompt (Input Monitoring) — click **Open System Settings** and enable it, then quit and reopen the app for the grant to take effect. Because the app is only ad-hoc signed (no paid Apple Developer account), macOS treats each fresh build as a new app for permission purposes, so this can recur after rebuilds.
+The first launch after a fresh rebuild may show a **"Corne HUD would like to receive keystrokes from any application"** system prompt (Input Monitoring) — click **Open System Settings** and enable it, then quit and reopen the app for the grant to take effect. Because the app is only ad-hoc signed (no paid Apple Developer account), macOS treats each fresh build as a new app for permission purposes, so this can recur after rebuilds.
 
 **Gotchas already handled in this repo's code** (see `CLAUDE.md`'s "Packaging notes" for the full detail if this ever breaks):
 - Briefcase requires a PEP 639 `license`/`license-files` declaration or it refuses to build at all.
