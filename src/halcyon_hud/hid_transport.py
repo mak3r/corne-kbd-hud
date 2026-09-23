@@ -6,14 +6,82 @@ keyboard is unplugged or the wrong half becomes master.
 Wire format: plain text lines, "LAYER:<n>\\n" (see halcyon-corne's
 CLAUDE.md, "Desktop HUD layer broadcast").
 """
+import ctypes
+import sys
 import time
+from pathlib import Path
 
 from PySide6.QtCore import QThread, Signal
 
+from .hud_window import _log
+
+# The `hid` package (a ctypes wrapper) loads the native hidapi library with
+# `ctypes.cdll.LoadLibrary('libhidapi.dylib')` -- a BARE name, not a path --
+# relying on dyld's own search to find it. That works for a plain `python3`
+# process launched from a shell, which inherits Homebrew's environment --
+# but a Briefcase-packaged .app's bundled/ad-hoc-signed interpreter can't
+# find it at all (confirmed: ImportError listing every name variant it
+# tried). Two things that looked like they'd fix this did NOT, both
+# confirmed on hardware:
+#   - Preloading the real file by absolute path first: doesn't help,
+#     because (confirmed via `otool -D`) the dylib's own recorded install
+#     name (/opt/homebrew/opt/hidapi/lib/libhidapi.0.dylib) differs from
+#     the bare name `hid` asks for, so dyld doesn't recognize it as
+#     already loaded and repeats its own failing bare-name search.
+#   - Setting DYLD_LIBRARY_PATH at runtime: macOS ignores DYLD_* env vars
+#     for ad-hoc-signed/hardened-runtime binaries as a security measure,
+#     regardless of when they're set.
+# What actually works: bypass dyld's bare-name search entirely by
+# monkeypatching ctypes.cdll.LoadLibrary for the duration of `import hid`,
+# so hid's own `ctypes.cdll.LoadLibrary('libhidapi.dylib')` call gets
+# redirected straight to an explicit CDLL(absolute_path) we control. This
+# assumes hidapi was installed the way the README's "Running it" section
+# already asks for (`brew install hidapi`), which holds for anyone
+# building this themselves; it is not a portable fix for handing the
+# built .app to someone without Homebrew.
+def _import_hid_with_homebrew_hidapi():
+    if sys.platform != "darwin":
+        import hid as hid_module
+
+        return hid_module
+
+    homebrew_dylib = None
+    for candidate in (
+        "/opt/homebrew/lib/libhidapi.dylib",  # Homebrew, Apple Silicon
+        "/usr/local/lib/libhidapi.dylib",  # Homebrew, Intel
+    ):
+        if Path(candidate).exists():
+            homebrew_dylib = candidate
+            break
+
+    if homebrew_dylib is None:
+        _log("HidTransport: no Homebrew libhidapi.dylib found (checked /opt/homebrew/lib, /usr/local/lib)")
+        import hid as hid_module  # let it fail with hid's own ImportError
+
+        return hid_module
+
+    original_load_library = ctypes.cdll.LoadLibrary
+
+    def redirect_load_library(name):
+        if name == "libhidapi.dylib":
+            _log(f"HidTransport: redirecting hid's libhidapi.dylib load to {homebrew_dylib}")
+            return ctypes.CDLL(homebrew_dylib)
+        return original_load_library(name)
+
+    ctypes.cdll.LoadLibrary = redirect_load_library
+    try:
+        import hid as hid_module
+
+        return hid_module
+    finally:
+        ctypes.cdll.LoadLibrary = original_load_library
+
+
 try:
-    import hid
-except ImportError:
+    hid = _import_hid_with_homebrew_hidapi()
+except ImportError as e:
     hid = None
+    _log(f"HidTransport: 'import hid' failed: {e!r}")
 
 # The "PJRC Teensy compatible" console usage page/usage QMK's CONSOLE_ENABLE
 # always uses, regardless of the keyboard's VID/PID.
@@ -67,12 +135,17 @@ class HidTransport(QThread):
             self.connectionChanged.emit(connected)
 
     def run(self):
+        _log(f"HidTransport.run() starting, hid module = {hid!r}")
         if hid is None:
             self._set_connected(False)
             return
 
         while self._running:
-            path = find_console_device_path()
+            try:
+                path = find_console_device_path()
+            except Exception as e:
+                _log(f"HidTransport: find_console_device_path() raised: {e!r}")
+                path = None
             if path is None:
                 self._set_connected(False)
                 self._interruptible_sleep(RECONNECT_DELAY_S)
@@ -80,18 +153,21 @@ class HidTransport(QThread):
 
             try:
                 device = hid.Device(path=path)
-            except Exception:
+            except Exception as e:
+                _log(f"HidTransport: hid.Device(path={path!r}) raised: {e!r}")
                 self._set_connected(False)
                 self._interruptible_sleep(RECONNECT_DELAY_S)
                 continue
 
+            _log(f"HidTransport: opened device at path={path!r}")
             self._set_connected(True)
             buf = b""
             try:
                 while self._running:
                     try:
                         data = device.read(64, timeout=READ_TIMEOUT_MS)
-                    except Exception:
+                    except Exception as e:
+                        _log(f"HidTransport: device.read() raised: {e!r}")
                         break  # device likely unplugged; fall through to reconnect
                     if not data:
                         continue
@@ -103,6 +179,7 @@ class HidTransport(QThread):
             finally:
                 device.close()
                 self._set_connected(False)
+                _log("HidTransport: device closed, disconnected")
 
     def _handle_line(self, text):
         if text.startswith("LAYER:"):
