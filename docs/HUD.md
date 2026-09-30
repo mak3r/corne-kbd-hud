@@ -65,8 +65,10 @@ Verified working end-to-end (Briefcase 0.4.5): `briefcase build` produces a real
 
 ```bash
 python3 -m pip install --break-system-packages briefcase   # or install into a venv instead
-briefcase build
+briefcase build -u
 ```
+
+Always pass `-u` when rebuilding: once the app exists, a plain `briefcase build` re-signs the existing bundle without copying in changed source or data (e.g. a regenerated `mak3r_layers.json`), and still reports success.
 
 This builds `build/corne_kbd_hud/macos/app/Corne HUD.app`, ad-hoc signed (no Apple Developer account needed for this). To run it:
 
