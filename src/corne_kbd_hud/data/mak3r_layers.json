@@ -646,8 +646,8 @@
       {
         "r": 5,
         "c": 0,
-        "kc": "KC_DELETE",
-        "label": "Del",
+        "kc": "KC_BSPC",
+        "label": "Bksp",
         "modtap": false,
         "hsv": [
           152,
@@ -910,8 +910,8 @@
       {
         "r": 7,
         "c": 2,
-        "kc": "LSFT(KC_BSLS)",
-        "label": "|",
+        "kc": "KC_KP_DOT",
+        "label": ".",
         "modtap": false,
         "hsv": [
           152,
@@ -922,10 +922,14 @@
       {
         "r": 7,
         "c": 1,
-        "kc": "KC_NO",
-        "label": "\u00b7",
+        "kc": "LSFT(KC_BSLS)",
+        "label": "|",
         "modtap": false,
-        "hsv": null
+        "hsv": [
+          152,
+          255,
+          255
+        ]
       },
       {
         "r": 7,

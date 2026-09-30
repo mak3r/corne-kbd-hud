@@ -44,6 +44,7 @@ RENAMES = {
     "LEFT": "←", "RIGHT": "→", "UP": "↑", "DOWN": "↓",
     "KP_MINUS": "-", "KP_EQUAL": "=", "KP_1": "1", "KP_2": "2", "KP_3": "3", "KP_4": "4", "KP_5": "5",
     "KP_6": "6", "KP_7": "7", "KP_8": "8", "KP_9": "9", "KP_0": "0",
+    "KP_DOT": ".", "KP_PLUS": "+", "KP_SLASH": "/", "KP_ASTERISK": "*", "KP_COMMA": ",", "KP_ENTER": "Enter",
     "VOLU": "Vol+", "VOLD": "Vol-", "MPLY": "Play", "MRWD": "Rwd", "MFFD": "Ffd", "PSCR": "PrSc",
     "MINUS": "-", "EQUAL": "=",
 }
