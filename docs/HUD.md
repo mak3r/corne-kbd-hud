@@ -42,7 +42,7 @@ On macOS, `hid` needs the native `hidapi` library — `brew install hidapi` if t
 A tray icon appears in the menu bar (a filled teal dot = keyboard connected, a terracotta ring = not) — look at the far right of the menu bar on a wide/multi-monitor setup, since macOS only ever places status icons on the primary display's menu bar. Its menu toggles "Pin HUD Visible" and quits the app.
 
 The HUD itself:
-- Auto-shows when you leave the base layer and auto-hides ~1.5s after returning to it, unless pinned.
+- Auto-shows when you leave the base layer and auto-hides ~1.5s after returning to it, unless pinned. The mouse layer (4, which the trackpad turns on automatically) is treated like the base layer, so using the trackpad doesn't flash the HUD up; pin it to see layer 4.
 - Is movable — click and drag it anywhere; the position is remembered across restarts.
 - Is resizable — drag the bottom-right corner (a small diagonal-line grip marks it). The whole layout scales together as one, rather than stretching width/height independently, so the physical key layout's proportions stay correct at any size. The size is remembered across restarts too.
 - Highlights each key with a white outline while it's physically held down — a visual checkpoint while learning a new layout.

@@ -2032,7 +2032,7 @@
     ]
   },
   {
-    "name": "Return",
+    "name": "Mouse",
     "keys": [
       {
         "r": 0,
@@ -2205,37 +2205,37 @@
       {
         "r": 1,
         "c": 2,
-        "kc": "KC_TRNS",
-        "label": "\u2015",
+        "kc": "KC_BTN2",
+        "label": "RClk",
         "modtap": false,
         "hsv": [
-          0,
-          0,
-          216
+          21,
+          255,
+          255
         ]
       },
       {
         "r": 1,
         "c": 3,
-        "kc": "KC_TRNS",
-        "label": "\u2015",
+        "kc": "KC_BTN3",
+        "label": "MClk",
         "modtap": false,
         "hsv": [
-          0,
-          0,
-          216
+          21,
+          255,
+          255
         ]
       },
       {
         "r": 1,
         "c": 4,
-        "kc": "KC_TRNS",
-        "label": "\u2015",
+        "kc": "KC_BTN1",
+        "label": "LClk",
         "modtap": false,
         "hsv": [
-          0,
-          0,
-          216
+          21,
+          255,
+          255
         ]
       },
       {
@@ -2486,8 +2486,8 @@
         "modtap": false,
         "hsv": [
           0,
-          0,
-          216
+          255,
+          255
         ]
       },
       {
@@ -2522,8 +2522,8 @@
         "modtap": false,
         "hsv": [
           0,
-          0,
-          216
+          255,
+          255
         ]
       },
       {

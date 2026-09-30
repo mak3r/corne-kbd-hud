@@ -20,7 +20,7 @@ from pathlib import Path
 HERE = Path(__file__).parent
 OUT_PATH = HERE.parent / "src" / "corne_kbd_hud" / "data" / "mak3r_layers.json"
 
-LAYER_NAMES = ["Base", "Symbols", "Nav", "Function", "Return", "Return2", "Unused", "Unused"]
+LAYER_NAMES = ["Base", "Symbols", "Nav", "Function", "Mouse", "Return2", "Unused", "Unused"]
 
 # --- keycode layout (same derivation as halcyon-corne's generate_keymap_from_vil.py) ---
 
@@ -47,6 +47,10 @@ RENAMES = {
     "KP_DOT": ".", "KP_PLUS": "+", "KP_SLASH": "/", "KP_ASTERISK": "*", "KP_COMMA": ",", "KP_ENTER": "Enter",
     "VOLU": "Vol+", "VOLD": "Vol-", "MPLY": "Play", "MRWD": "Rwd", "MFFD": "Ffd", "PSCR": "PrSc",
     "MINUS": "-", "EQUAL": "=",
+    # Mouse buttons -- legacy KC_BTNn / KC_MS_BTNn and current QMK MS_BTNn
+    # (the latter has no KC_ prefix; short_label strips "MS_" for it).
+    "BTN1": "LClk", "BTN2": "RClk", "BTN3": "MClk",
+    "MS_BTN1": "LClk", "MS_BTN2": "RClk", "MS_BTN3": "MClk",
 }
 MOD_SYMS = {
     "LSFT": "⇧", "RSFT": "⇧", "LCTL": "⌃", "RCTL": "⌃",
@@ -113,6 +117,8 @@ def short_label(kc):
         return f"{sym}{plain_kc_label(inner)}"
     if kc.startswith("KC_"):
         return plain_kc_label(kc[3:])
+    if kc.startswith("MS_"):
+        return plain_kc_label(kc)
     if kc == "QK_BOOT":
         return "Boot"
     if kc == "QK_CAPS_WORD_TOGGLE":

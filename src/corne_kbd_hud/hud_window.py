@@ -75,7 +75,9 @@ GAP = 4
 MARGIN = 14
 CORNER_RADIUS = 7
 
-AUTO_HIDE_LAYER = 0
+# Layers the HUD hides itself on (unless pinned): the base layer, and the
+# mouse layer, which the trackpad turns on constantly (firmware auto mouse).
+AUTO_HIDE_LAYERS = {0, 4}
 AUTO_HIDE_DELAY_MS = 1500
 
 RESIZE_HANDLE_PX = 18  # fixed screen-pixel hit/visual size, not scaled
@@ -330,7 +332,7 @@ class HudWindow(QWidget):
         if pinned:
             self._auto_hide_timer.stop()
             self._native_show()
-        elif self._layer_index == AUTO_HIDE_LAYER:
+        elif self._layer_index in AUTO_HIDE_LAYERS:
             self._auto_hide_timer.start(AUTO_HIDE_DELAY_MS)
 
     def set_layer(self, layer_index: int):
@@ -344,7 +346,7 @@ class HudWindow(QWidget):
         if self._pinned:
             return  # stays visible/showing this layer regardless of which one
 
-        if layer_index == AUTO_HIDE_LAYER:
+        if layer_index in AUTO_HIDE_LAYERS:
             self._auto_hide_timer.start(AUTO_HIDE_DELAY_MS)
         else:
             self._auto_hide_timer.stop()
