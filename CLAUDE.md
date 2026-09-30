@@ -69,4 +69,4 @@ By default an `NSWindow` only shows on the Space (virtual desktop) it was last s
 
 ## Commit standards
 
-Same as `halcyon-corne`: Conventional Commits (`feat`, `fix`, `docs`, `chore`, etc.), `Co-Authored-By: Claude Sonnet 5 <noreply@anthropic.com>` trailer on commits Claude makes.
+Same as `halcyon-corne`: Conventional Commits (`feat`, `fix`, `docs`, `chore`, etc.), `Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>` trailer on commits Claude makes.
