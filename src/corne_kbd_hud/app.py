@@ -115,11 +115,13 @@ class CorneHudApp:
         self._signal_timer.start(200)
 
         self._pinned = False
+        self._build_info = None
         self.hud = HudWindow()
 
         self.transport = HidTransport()
         self.transport.layerChanged.connect(self.hud.set_layer)
         self.transport.keyEvent.connect(self.hud.set_key_state)
+        self.transport.buildInfo.connect(self._on_build_info)
         self.transport.connectionChanged.connect(self._on_connection_changed)
         self.app.aboutToQuit.connect(self.transport.stop)
 
@@ -187,7 +189,25 @@ class CorneHudApp:
     def _on_connection_changed(self, connected: bool):
         self.hud.set_connected(connected)
         self.tray.setIcon(make_tray_icon(connected))
-        self.tray.setToolTip("Corne HUD -- connected" if connected else "Corne HUD -- not connected")
+        if not connected:
+            # Stale once disconnected -- a reconnect might be to the OTHER
+            # physical half (different build), so don't keep showing it
+            # until a fresh BUILD: line arrives.
+            self._build_info = None
+        self._update_tray_tooltip(connected)
+
+    def _on_build_info(self, build_info: str):
+        _log(f"buildInfo received: {build_info!r}")
+        self._build_info = build_info
+        self._update_tray_tooltip(connected=True)  # only ever fires while connected
+
+    def _update_tray_tooltip(self, connected: bool):
+        if not connected:
+            self.tray.setToolTip("Corne HUD -- not connected")
+        elif self._build_info:
+            self.tray.setToolTip(f"Corne HUD -- connected (master built {self._build_info})")
+        else:
+            self.tray.setToolTip("Corne HUD -- connected")
 
     def _toggle_hud(self):
         pinned = not self._pinned

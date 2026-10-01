@@ -107,12 +107,18 @@ def find_console_device_path():
 class HidTransport(QThread):
     """Background thread: connects to the console interface, parses
     incoming lines, and emits layerChanged(int) whenever "LAYER:<n>"
-    arrives, or keyEvent(row, col, pressed) whenever "KEY:<row>,<col>,<0|1>"
-    arrives (see halcyon-corne's hud_console.c). Emits connectionChanged(bool)
-    when the device is found/lost."""
+    arrives, keyEvent(row, col, pressed) whenever "KEY:<row>,<col>,<0|1>"
+    arrives, or buildInfo(str) whenever "BUILD:<date> <time>" arrives (see
+    halcyon-corne's hud_console.c / caps_word_sync.c). The build-version
+    broadcast is periodic (not just once at boot) and fires from whichever
+    half is currently master -- re-plugging the other half in as master
+    shows ITS build info instead, which is how this doubles as a firmware-
+    mismatch check between the two physical halves. Emits
+    connectionChanged(bool) when the device is found/lost."""
 
     layerChanged = Signal(int)
     keyEvent = Signal(int, int, bool)
+    buildInfo = Signal(str)
     connectionChanged = Signal(bool)
 
     def __init__(self, parent=None):
@@ -197,3 +203,5 @@ class HidTransport(QThread):
                 self.keyEvent.emit(int(row_str), int(col_str), pressed_str == "1")
             except ValueError:
                 return
+        elif text.startswith("BUILD:"):
+            self.buildInfo.emit(text.split(":", 1)[1].strip())
