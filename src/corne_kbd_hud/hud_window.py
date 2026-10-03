@@ -90,6 +90,31 @@ TEXT_LIGHT = QColor(243, 244, 248)
 TEXT_DARK = QColor(20, 21, 26)
 PRESSED_OUTLINE = QColor(255, 255, 255)
 
+# Physical position of the left/right Shift keys (same on every layer where
+# they're not transparent -- see mak3r_layers.json). MO1/MO2 already update
+# the HUD because holding them changes the active *layer* (a real
+# LAYER: broadcast fires); Shift doesn't change layers at all, so without
+# this the HUD never reflected it. Tracked via the existing per-key KEY:
+# press/release broadcast (hid_transport.py's keyEvent), same channel the
+# press-highlight outline already uses.
+SHIFT_POSITIONS = {(2, 0), (7, 0)}
+
+# Standard US QWERTY shifted symbols -- mirrors halcyon-corne's
+# generate_layout_data.py SHIFT_SYMBOLS table (which bakes LSFT(KC_x) combos
+# into their shifted character at generation time). This is the same idea
+# applied live: while Shift is physically held, a plain digit/punctuation
+# key on whatever layer is currently showing displays what it will actually
+# produce, not what it says without Shift. Letters are left alone -- they
+# already render as uppercase letterforms regardless of Shift state, same
+# as real keycap printing.
+SHIFT_SYMBOLS = {
+    "KC_1": "!", "KC_2": "@", "KC_3": "#", "KC_4": "$", "KC_5": "%",
+    "KC_6": "^", "KC_7": "&", "KC_8": "*", "KC_9": "(", "KC_0": ")",
+    "KC_GRAVE": "~", "KC_MINUS": "_", "KC_EQUAL": "+",
+    "KC_LBRC": "{", "KC_RBRC": "}", "KC_BSLS": "|",
+    "KC_SCLN": ":", "KC_QUOTE": "\"", "KC_COMMA": "<", "KC_DOT": ">", "KC_SLASH": "?",
+}
+
 
 def hsv_to_qcolor(hsv):
     """QMK's HSV is 0-255 per channel; Python's colorsys wants 0-1."""
@@ -133,6 +158,7 @@ class HudWindow(QWidget):
         self._connected = False
         self._pinned = False
         self._pressed_rc = set()
+        self._shift_held = False
         self._drag_offset = None
         self._resize_start_global = None
         self._resize_start_scale = None
@@ -321,7 +347,23 @@ class HudWindow(QWidget):
             self._pressed_rc.add((row, col))
         else:
             self._pressed_rc.discard((row, col))
+        if (row, col) in SHIFT_POSITIONS:
+            self._shift_held = pressed
         self.update()
+
+    def _effective_label(self, key):
+        """What this key actually shows right now -- the shifted symbol if
+        Shift is physically held and this is a plain key with a real
+        shifted meaning (see SHIFT_SYMBOLS), otherwise its normal label.
+        Only plain KC_x keycodes match: combos like LSFT(KC_1) (already
+        baked to their shifted symbol at data-generation time) and keys
+        like KC_KP_1 (numpad -- Shift doesn't change its meaning here)
+        don't, which is correct."""
+        if self._shift_held:
+            symbol = SHIFT_SYMBOLS.get(key["kc"])
+            if symbol:
+                return symbol
+        return key["label"]
 
     def set_pinned(self, pinned: bool):
         """Keep the HUD visible regardless of layer -- overrides auto-hide
@@ -414,7 +456,7 @@ class HudWindow(QWidget):
             painter.drawPath(path)
 
             painter.setPen(text_color_for(fill))
-            label = key["label"]
+            label = self._effective_label(key)
             # Shrink very long labels (mod combos) to fit.
             while metrics.horizontalAdvance(label) > KEY_SIZE - 4 and len(label) > 1:
                 label = label[:-1]

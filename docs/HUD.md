@@ -46,6 +46,7 @@ The HUD itself:
 - Is movable — click and drag it anywhere; the position is remembered across restarts.
 - Is resizable — drag the bottom-right corner (a small diagonal-line grip marks it). The whole layout scales together as one, rather than stretching width/height independently, so the physical key layout's proportions stay correct at any size. The size is remembered across restarts too.
 - Highlights each key with a white outline while it's physically held down — a visual checkpoint while learning a new layout.
+- Shows what Shift actually produces: while either physical Shift key is held, a key like `;` or `` ` `` updates live to show `:` or `~` — matching real typing, not just the unshifted label. (`MO1`/`MO2` already changed what the HUD shows because holding them switches the active *layer*; Shift doesn't change layers, so this needed separate tracking.) Numpad-style digit keys and layer-baked combos like `LSFT(KC_1)` are correctly left alone, since Shift doesn't change what they produce.
 - Stays visible across every macOS Space/virtual desktop, including over apps in native full-screen mode — the same `NSWindowCollectionBehavior` technique apps like Keymapp use (see `hud_window.py`'s `_set_collection_behavior_all_spaces()`).
 
 ## Regenerating the keymap/color data
