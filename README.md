@@ -2,7 +2,7 @@
 
 A real-time keymap layer viewer for a [Halcyon Corne](https://splitkb.com/products/halcyon-corne) — similar in spirit to ZSA's Keymapp, but reading live layer state directly off the keyboard over USB HID rather than just showing a static keymap.
 
-Sibling project to [`halcyon-corne`](https://github.com/mak3r/halcyon-corne) (the firmware). Scoped to the Corne for now; the transport layer is written so a ZMK board could plug in later without changing the HUD/rendering code, but that's unbuilt and not a near-term goal.
+Sibling project to [`halcyon-corne`](https://github.com/mak3r/halcyon-corne) (the firmware). Also intended to work with the wireless ZMK Corne ([`tya-corne`](https://github.com/mak3r/tya-corne)), over USB or Bluetooth, with no changes here. That firmware impersonates QMK's console HID interface and sends the same `LAYER:`/`KEY:` lines. Not yet confirmed on hardware.
 
 ![The desktop HUD overlay showing Layer 0 (Base), colored to match the keyboard's real per-key RGB](docs/images/hud-overlay.png)
 
@@ -20,7 +20,7 @@ The HUD is also movable (click and drag it anywhere; the position is remembered 
 What's not built yet (see `halcyon-corne`'s original HUD plan for the fuller phase list):
 - `briefcase package`, code signing, and notarization (macOS Input Monitoring permission handling in a packaged build also needs real testing)
 - Windows/Linux testing (developed and tested on macOS only so far)
-- ZMK transport (a real lift — see `halcyon-corne`'s CLAUDE.md for why that's a separate, later concern)
+- Hardware confirmation of the ZMK board (`tya-corne`), especially over Bluetooth. Layer 3/4 labels in `mak3r_layers.json` still show the Halcyon's RGB/F13 keys, not that board's Bluetooth/mouse-move keys.
 
 See **[docs/HUD.md](docs/HUD.md)** for how it works, how to run it, how to build/deploy it, and how to regenerate its keymap/color data from `halcyon-corne`.
 
