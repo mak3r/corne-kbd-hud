@@ -32,6 +32,9 @@ RENAMES = {
     # Mouse movement / wheel (layer 4, J/K/L/; and M/,/./slash).
     "MS_LEFT": "Ms←", "MS_DOWN": "Ms↓", "MS_UP": "Ms↑", "MS_RIGHT": "Ms→",
     "MS_WH_LEFT": "Wh←", "MS_WH_DOWN": "Wh↓", "MS_WH_UP": "Wh↑", "MS_WH_RIGHT": "Wh→",
+    # Mouse speed keys (layer 4 U/I/O), latching on both boards.
+    "ACL0": "Slow", "ACL1": "Med", "ACL2": "Fast",
+    "MS_ACL0": "Slow", "MS_ACL1": "Med", "MS_ACL2": "Fast",
     # Wireless-only keys in the shared layout (Typeractive; nothing on the Halcyon).
     "OUT_TOG": "USB/BT", "BT_CLR": "BT Clr",
     "BT_SEL_0": "BT 0", "BT_SEL_1": "BT 1", "BT_SEL_2": "BT 2", "BT_SEL_3": "BT 3", "BT_SEL_4": "BT 4",

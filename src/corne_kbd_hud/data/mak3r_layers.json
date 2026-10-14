@@ -2097,8 +2097,8 @@
       {
         "r": 0,
         "c": 5,
-        "kc": "KC_TRNS",
-        "label": "\u2015",
+        "kc": "KC_F13",
+        "label": "F13",
         "modtap": false,
         "hsv": [
           0,
@@ -2121,8 +2121,8 @@
       {
         "r": 5,
         "c": 4,
-        "kc": "KC_TRNS",
-        "label": "\u2015",
+        "kc": "KC_ACL0",
+        "label": "Slow",
         "modtap": false,
         "hsv": [
           0,
@@ -2133,8 +2133,8 @@
       {
         "r": 5,
         "c": 3,
-        "kc": "KC_TRNS",
-        "label": "\u2015",
+        "kc": "KC_ACL1",
+        "label": "Med",
         "modtap": false,
         "hsv": [
           0,
@@ -2145,8 +2145,8 @@
       {
         "r": 5,
         "c": 2,
-        "kc": "KC_TRNS",
-        "label": "\u2015",
+        "kc": "KC_ACL2",
+        "label": "Fast",
         "modtap": false,
         "hsv": [
           0,
@@ -2193,8 +2193,8 @@
       {
         "r": 1,
         "c": 1,
-        "kc": "KC_F13",
-        "label": "F13",
+        "kc": "KC_BTN1",
+        "label": "LClk",
         "modtap": false,
         "hsv": [
           152,
@@ -2205,18 +2205,6 @@
       {
         "r": 1,
         "c": 2,
-        "kc": "KC_BTN2",
-        "label": "RClk",
-        "modtap": false,
-        "hsv": [
-          21,
-          255,
-          255
-        ]
-      },
-      {
-        "r": 1,
-        "c": 3,
         "kc": "KC_BTN3",
         "label": "MClk",
         "modtap": false,
@@ -2228,9 +2216,21 @@
       },
       {
         "r": 1,
+        "c": 3,
+        "kc": "KC_MS_DOWN",
+        "label": "Ms\u2193",
+        "modtap": false,
+        "hsv": [
+          21,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 1,
         "c": 4,
-        "kc": "KC_BTN1",
-        "label": "LClk",
+        "kc": "KC_MS_RIGHT",
+        "label": "Ms\u2192",
         "modtap": false,
         "hsv": [
           21,
@@ -2277,18 +2277,6 @@
       {
         "r": 6,
         "c": 3,
-        "kc": "KC_MS_DOWN",
-        "label": "Ms\u2193",
-        "modtap": false,
-        "hsv": [
-          21,
-          255,
-          255
-        ]
-      },
-      {
-        "r": 6,
-        "c": 2,
         "kc": "KC_MS_UP",
         "label": "Ms\u2191",
         "modtap": false,
@@ -2300,9 +2288,21 @@
       },
       {
         "r": 6,
+        "c": 2,
+        "kc": "KC_BTN3",
+        "label": "MClk",
+        "modtap": false,
+        "hsv": [
+          21,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 6,
         "c": 1,
-        "kc": "KC_MS_RIGHT",
-        "label": "Ms\u2192",
+        "kc": "KC_BTN2",
+        "label": "RClk",
         "modtap": false,
         "hsv": [
           21,
@@ -2361,8 +2361,8 @@
       {
         "r": 2,
         "c": 3,
-        "kc": "KC_TRNS",
-        "label": "\u2015",
+        "kc": "KC_MS_WH_RIGHT",
+        "label": "Wh\u2192",
         "modtap": false,
         "hsv": [
           0,
@@ -2373,66 +2373,42 @@
       {
         "r": 2,
         "c": 4,
-        "kc": "KC_TRNS",
-        "label": "\u2015",
-        "modtap": false,
-        "hsv": [
-          0,
-          0,
-          216
-        ]
-      },
-      {
-        "r": 2,
-        "c": 5,
-        "kc": "KC_TRNS",
-        "label": "\u2015",
-        "modtap": false,
-        "hsv": [
-          0,
-          0,
-          216
-        ]
-      },
-      {
-        "r": 7,
-        "c": 5,
-        "kc": "KC_TRNS",
-        "label": "\u2015",
-        "modtap": false,
-        "hsv": [
-          0,
-          0,
-          216
-        ]
-      },
-      {
-        "r": 7,
-        "c": 4,
-        "kc": "KC_MS_WH_LEFT",
-        "label": "Wh\u2190",
-        "modtap": false,
-        "hsv": [
-          152,
-          255,
-          255
-        ]
-      },
-      {
-        "r": 7,
-        "c": 3,
         "kc": "KC_MS_WH_DOWN",
         "label": "Wh\u2193",
         "modtap": false,
         "hsv": [
-          152,
-          255,
-          255
+          0,
+          0,
+          216
+        ]
+      },
+      {
+        "r": 2,
+        "c": 5,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          216
         ]
       },
       {
         "r": 7,
-        "c": 2,
+        "c": 5,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          0,
+          0,
+          216
+        ]
+      },
+      {
+        "r": 7,
+        "c": 4,
         "kc": "KC_MS_WH_UP",
         "label": "Wh\u2191",
         "modtap": false,
@@ -2444,9 +2420,33 @@
       },
       {
         "r": 7,
+        "c": 3,
+        "kc": "KC_MS_WH_LEFT",
+        "label": "Wh\u2190",
+        "modtap": false,
+        "hsv": [
+          152,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 7,
+        "c": 2,
+        "kc": "KC_TRNS",
+        "label": "\u2015",
+        "modtap": false,
+        "hsv": [
+          152,
+          255,
+          255
+        ]
+      },
+      {
+        "r": 7,
         "c": 1,
-        "kc": "KC_MS_WH_RIGHT",
-        "label": "Wh\u2192",
+        "kc": "KC_TRNS",
+        "label": "\u2015",
         "modtap": false,
         "hsv": [
           152,
