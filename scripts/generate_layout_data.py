@@ -51,6 +51,9 @@ RENAMES = {
     # (the latter has no KC_ prefix; short_label strips "MS_" for it).
     "BTN1": "LClk", "BTN2": "RClk", "BTN3": "MClk",
     "MS_BTN1": "LClk", "MS_BTN2": "RClk", "MS_BTN3": "MClk",
+    # Mouse movement / wheel (layer 4, J/K/L/; and M/,/./slash).
+    "MS_LEFT": "Ms←", "MS_DOWN": "Ms↓", "MS_UP": "Ms↑", "MS_RIGHT": "Ms→",
+    "MS_WH_LEFT": "Wh←", "MS_WH_DOWN": "Wh↓", "MS_WH_UP": "Wh↑", "MS_WH_RIGHT": "Wh→",
 }
 MOD_SYMS = {
     "LSFT": "⇧", "RSFT": "⇧", "LCTL": "⌃", "RCTL": "⌃",
