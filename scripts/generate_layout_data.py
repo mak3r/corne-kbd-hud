@@ -18,9 +18,13 @@ import argparse
 import csv
 import json
 import re
+import sys
 from pathlib import Path
 
 HERE = Path(__file__).parent
+sys.path.insert(0, str(HERE.parent / "src"))
+from corne_kbd_hud.keycodes import key_entry  # noqa: E402 -- the HUD's own label rules
+
 OUT_PATH = HERE.parent / "src" / "corne_kbd_hud" / "data" / "mak3r_layers.json"
 
 LAYER_NAMES = ["Base", "Symbols", "Nav", "Function", "Mouse", "Return2", "Unused", "Unused"]
@@ -38,85 +42,6 @@ COORDS = (
     + [(8, c) for c in [5, 4, 3]]
 )
 assert len(COORDS) == 42
-
-RENAMES = {
-    "BSPC": "Bksp", "ENTER": "Enter", "ESCAPE": "Esc", "SPACE": "Space", "QUOTE": "'",
-    "SCLN": ";", "SLASH": "/", "COMMA": ",", "DOT": ".", "GRAVE": "`", "BSLS": "\\",
-    "LBRC": "[", "RBRC": "]", "MUTE": "Mute", "NO": "·", "TRNS": "―", "DELETE": "Del",
-    "PGUP": "PgUp", "PGDN": "PgDn", "HOME": "Home", "END": "End",
-    "LEFT": "←", "RIGHT": "→", "UP": "↑", "DOWN": "↓",
-    "KP_MINUS": "-", "KP_EQUAL": "=", "KP_1": "1", "KP_2": "2", "KP_3": "3", "KP_4": "4", "KP_5": "5",
-    "KP_6": "6", "KP_7": "7", "KP_8": "8", "KP_9": "9", "KP_0": "0",
-    "KP_DOT": ".", "KP_PLUS": "+", "KP_SLASH": "/", "KP_ASTERISK": "*", "KP_COMMA": ",", "KP_ENTER": "Enter",
-    "VOLU": "Vol+", "VOLD": "Vol-", "MPLY": "Play", "MRWD": "Rwd", "MFFD": "Ffd", "PSCR": "PrSc",
-    "MINUS": "-", "EQUAL": "=",
-    # Mouse buttons -- legacy KC_BTNn / KC_MS_BTNn and current QMK MS_BTNn
-    # (the latter has no KC_ prefix; short_label strips "MS_" for it).
-    "BTN1": "LClk", "BTN2": "RClk", "BTN3": "MClk",
-    "MS_BTN1": "LClk", "MS_BTN2": "RClk", "MS_BTN3": "MClk",
-    # Mouse movement / wheel (layer 4, J/K/L/; and M/,/./slash).
-    "MS_LEFT": "Ms←", "MS_DOWN": "Ms↓", "MS_UP": "Ms↑", "MS_RIGHT": "Ms→",
-    "MS_WH_LEFT": "Wh←", "MS_WH_DOWN": "Wh↓", "MS_WH_UP": "Wh↑", "MS_WH_RIGHT": "Wh→",
-    # Wireless-only keys in the shared layout (Typeractive; nothing on the Halcyon).
-    "OUT_TOG": "USB/BT", "BT_CLR": "BT Clr",
-    "BT_SEL_0": "BT 0", "BT_SEL_1": "BT 1", "BT_SEL_2": "BT 2", "BT_SEL_3": "BT 3", "BT_SEL_4": "BT 4",
-}
-MOD_SYMS = {
-    "LSFT": "⇧", "RSFT": "⇧", "LCTL": "⌃", "RCTL": "⌃",
-    "LGUI": "⌘", "RGUI": "⌘", "LALT": "⌥", "RALT": "⌥",
-    "SGUI": "⇧⌘", "SCTL": "⇧⌃", "SALT": "⇧⌥",
-    "MEH": "⌃⌥⇧", "HYPR": "⌃⌥⇧⌘",
-}
-# Standard US QWERTY shifted symbols -- for plain LSFT/RSFT(KC_x) only, where
-# the key produces a genuinely different character (KC_1 -> "!"), not a
-# modifier shortcut. Multi-modifier combos like SGUI/LCTL/LGUI are real
-# shortcuts (Cmd+C, Shift+Cmd+4) and should keep showing as symbol+key, not
-# be run through this table.
-SHIFT_SYMBOLS = {
-    "1": "!", "2": "@", "3": "#", "4": "$", "5": "%",
-    "6": "^", "7": "&", "8": "*", "9": "(", "0": ")",
-    "GRAVE": "~", "MINUS": "_", "EQUAL": "+",
-    "LBRC": "{", "RBRC": "}", "BSLS": "|",
-    "SCLN": ":", "QUOTE": "\"", "COMMA": "<", "DOT": ">", "SLASH": "?",
-}
-def plain_kc_label(inner):
-    if inner in RENAMES:
-        return RENAMES[inner]
-    if inner in MOD_SYMS:
-        return MOD_SYMS[inner]
-    return inner.capitalize() if len(inner) > 1 else inner
-
-
-def short_label(kc):
-    m = re.match(r"^(MO|OSL|TG|TO)\((\d+)\)$", kc)
-    if m:
-        return f"{m.group(1)}{m.group(2)}"
-    m = re.match(r"^([A-Z_]+)\(KC_(\w+)\)$", kc)
-    if m:
-        prefix, inner = m.group(1), m.group(2)
-        if prefix in ("LSFT", "RSFT") and inner in SHIFT_SYMBOLS:
-            return SHIFT_SYMBOLS[inner]
-        sym = MOD_SYMS.get(prefix, prefix + "+")
-        return f"{sym}{plain_kc_label(inner)}"
-    if kc.startswith("KC_"):
-        return plain_kc_label(kc[3:])
-    if kc.startswith("MS_") or kc in RENAMES:
-        return plain_kc_label(kc)
-    if kc == "QK_BOOT":
-        return "Boot"
-    if kc == "QK_CAPS_WORD_TOGGLE":
-        return "CapsWrd"
-    if kc.startswith("RM_"):
-        return kc.replace("RM_", "RGB")
-    return kc
-
-
-def modtap_label(kc):
-    m = re.match(r"^(?:LCTL_T|RCTL_T|LSFT_T|LALT_T|LGUI_T)\(KC_(\w+)\)$", kc)
-    if m:
-        return plain_kc_label(m.group(1))
-    return None
-
 
 # --- color layout (same derivation as halcyon-corne's generate_ledmap.py) ---
 
@@ -174,14 +99,7 @@ def main():
         flat = layer[:42]  # keymap.json's first 42 entries are in COORDS order
         keys = []
         for (r, c), kc in zip(COORDS, flat):
-            mt = modtap_label(kc)
-            hsv = colors[i].get((r, c))
-            keys.append({
-                "r": r, "c": c, "kc": kc,
-                "label": mt if mt else short_label(kc),
-                "modtap": bool(mt),
-                "hsv": hsv,
-            })
+            keys.append({"r": r, "c": c, **key_entry(kc), "hsv": colors[i].get((r, c))})
         out_layers.append({"name": LAYER_NAMES[i], "keys": keys})
 
     OUT_PATH.parent.mkdir(parents=True, exist_ok=True)

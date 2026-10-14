@@ -1,7 +1,9 @@
 """The HUD itself: a frameless, always-on-top overlay showing the active
 layer's key layout, colored to match the real keyboard's RGB (from
-rgb_layers.csv, baked into mak3r_layers.json)."""
+rgb_layers.csv, baked into mak3r_layers.json). Key labels come from the
+keyboard itself when it can say (set_keymap()), else from that same file."""
 import colorsys
+import copy
 import json
 import sys
 import time
@@ -67,6 +69,8 @@ def _set_collection_behavior_all_spaces(ns_window):
 
 
 from .keyboard_layout import bounding_size, compute_positions
+from .keycodes import SHIFT_SYMBOLS as _SHIFT_SYMBOLS
+from .keycodes import key_entry
 
 DATA_PATH = Path(__file__).parent / "data" / "mak3r_layers.json"
 
@@ -99,21 +103,14 @@ PRESSED_OUTLINE = QColor(255, 255, 255)
 # press-highlight outline already uses.
 SHIFT_POSITIONS = {(2, 0), (7, 0)}
 
-# Standard US QWERTY shifted symbols -- mirrors halcyon-corne's
-# generate_layout_data.py SHIFT_SYMBOLS table (which bakes LSFT(KC_x) combos
-# into their shifted character at generation time). This is the same idea
-# applied live: while Shift is physically held, a plain digit/punctuation
-# key on whatever layer is currently showing displays what it will actually
-# produce, not what it says without Shift. Letters are left alone -- they
-# already render as uppercase letterforms regardless of Shift state, same
-# as real keycap printing.
-SHIFT_SYMBOLS = {
-    "KC_1": "!", "KC_2": "@", "KC_3": "#", "KC_4": "$", "KC_5": "%",
-    "KC_6": "^", "KC_7": "&", "KC_8": "*", "KC_9": "(", "KC_0": ")",
-    "KC_GRAVE": "~", "KC_MINUS": "_", "KC_EQUAL": "+",
-    "KC_LBRC": "{", "KC_RBRC": "}", "KC_BSLS": "|",
-    "KC_SCLN": ":", "KC_QUOTE": "\"", "KC_COMMA": "<", "KC_DOT": ">", "KC_SLASH": "?",
-}
+# Standard US QWERTY shifted symbols (keycodes.SHIFT_SYMBOLS, which also
+# bakes LSFT(KC_x) combos into their shifted character), applied live:
+# while Shift is physically held, a plain digit/punctuation key on whatever
+# layer is currently showing displays what it will actually produce, not
+# what it says without Shift. Letters are left alone -- they already render
+# as uppercase letterforms regardless of Shift state, same as real keycap
+# printing.
+SHIFT_SYMBOLS = {f"KC_{name}": symbol for name, symbol in _SHIFT_SYMBOLS.items()}
 
 
 def hsv_to_qcolor(hsv):
@@ -153,7 +150,9 @@ class HudWindow(QWidget):
         self.setFocusPolicy(Qt.NoFocus)
 
         self._positions = compute_positions()
-        self._layers = json.loads(DATA_PATH.read_text())
+        self._bundled_layers = json.loads(DATA_PATH.read_text())
+        self._layers = self._bundled_layers
+        self._board_label = ""
         self._layer_index = 0
         self._connected = False
         self._pinned = False
@@ -334,6 +333,28 @@ class HudWindow(QWidget):
         layer = self._layers[self._layer_index]
         self._key_by_rc = {(k["r"], k["c"]): k for k in layer["keys"]}
 
+    def set_keymap(self, keymap):
+        """Show this keymap's labels: {(layer, row, col): keycode name},
+        from the keyboard itself (hid_transport.py). Colors stay the bundled
+        ones. Keys it doesn't cover keep their bundled labels; None goes
+        back to the bundled labels entirely."""
+        layers = copy.deepcopy(self._bundled_layers)
+        for li, layer in enumerate(layers):
+            for key in layer["keys"]:
+                kc = (keymap or {}).get((li, key["r"], key["c"]))
+                if kc is not None:
+                    key.update(key_entry(kc))
+        self._layers = layers
+        self._pressed_rc.clear()
+        self._shift_held = False
+        self._rebuild_key_lookup()
+        self.update()
+
+    def set_board_label(self, text: str):
+        """Which keyboard the HUD is showing, drawn in the header."""
+        self._board_label = text
+        self.update()
+
     def set_connected(self, connected: bool):
         self._connected = connected
         self.update()
@@ -482,6 +503,12 @@ class HudWindow(QWidget):
                 QRectF(MARGIN, 2, self._base_w - MARGIN * 2, 16),
                 Qt.AlignRight | Qt.AlignVCenter,
                 "disconnected",
+            )
+        elif self._board_label:
+            painter.drawText(
+                QRectF(MARGIN, 2, self._base_w - MARGIN * 2, 16),
+                Qt.AlignRight | Qt.AlignVCenter,
+                self._board_label,
             )
 
         painter.restore()  # undo the scale transform

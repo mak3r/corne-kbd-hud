@@ -6,7 +6,7 @@ from PySide6.QtCore import Qt, QTimer
 from PySide6.QtGui import QAction, QColor, QIcon, QPainter, QPixmap
 from PySide6.QtWidgets import QApplication, QMenu, QSystemTrayIcon
 
-from .hid_transport import HidTransport
+from .hid_transport import HidManager
 from .hud_window import HudWindow, _log
 
 
@@ -16,7 +16,7 @@ def _request_hid_access():
     an accessory (no-Dock-icon, never-foreground) app.
 
     hidapi fires an equivalent request implicitly the first time it opens
-    a device -- but that happens from HidTransport's background QThread,
+    a device -- but that happens from a BoardReader background QThread,
     after _hide_from_dock() has already run. Confirmed on hardware: that
     implicit request never produces a system prompt OR even an entry in
     System Settings -> Privacy & Security -> Input Monitoring for this
@@ -115,14 +115,20 @@ class CorneHudApp:
         self._signal_timer.start(200)
 
         self._pinned = False
-        self._build_info = None
+        # Every open console interface, by board id (hid_transport.py's
+        # describe_board() plus "layer", "build", and "keymap": None until
+        # the board answers, then its keymap, or False if it couldn't).
+        # The HUD follows whichever board an event last came from.
+        self._boards = {}
+        self._active = None
         self.hud = HudWindow()
 
-        self.transport = HidTransport()
-        self.transport.layerChanged.connect(self.hud.set_layer)
-        self.transport.keyEvent.connect(self.hud.set_key_state)
+        self.transport = HidManager()
+        self.transport.layerChanged.connect(self._on_layer)
+        self.transport.keyEvent.connect(self._on_key)
         self.transport.buildInfo.connect(self._on_build_info)
-        self.transport.connectionChanged.connect(self._on_connection_changed)
+        self.transport.keymapLoaded.connect(self._on_keymap_loaded)
+        self.transport.boardsChanged.connect(self._on_boards_changed)
         self.app.aboutToQuit.connect(self.transport.stop)
 
         self.tray = QSystemTrayIcon()
@@ -140,6 +146,10 @@ class CorneHudApp:
         self.toggle_action = QAction("Pin HUD Visible")
         self.toggle_action.triggered.connect(self._toggle_hud)
         self.menu.addAction(self.toggle_action)
+        # Re-read every board's keymap, e.g. after changing a key in Vial.
+        self.reload_action = QAction("Reload Keymap")
+        self.reload_action.triggered.connect(self._reload_keymaps)
+        self.menu.addAction(self.reload_action)
         self.menu.addSeparator()
         self.quit_action = QAction("Quit")
         self.quit_action.triggered.connect(self.app.quit)
@@ -186,28 +196,92 @@ class CorneHudApp:
         except ImportError:
             pass
 
-    def _on_connection_changed(self, connected: bool):
+    def _on_boards_changed(self, boards):
+        _log(f"boards: {boards}")
+        previous = self._boards
+        self._boards = {b["id"]: previous.get(b["id"], {**b, "layer": 0, "build": None, "keymap": None})
+                        for b in boards}
+        if self._active not in self._boards:
+            # Nothing typed on yet (or the active board went away): show
+            # one of the remaining boards until an event says otherwise.
+            self._active = None
+            if self._boards:
+                self._activate(next(iter(self._boards)))
+        connected = bool(self._boards)
         self.hud.set_connected(connected)
         self.tray.setIcon(make_tray_icon(connected))
-        if not connected:
-            # Stale once disconnected -- a reconnect might be to the OTHER
-            # physical half (different build), so don't keep showing it
-            # until a fresh BUILD: line arrives.
-            self._build_info = None
-        self._update_tray_tooltip(connected)
+        self._update_board_display()
 
-    def _on_build_info(self, build_info: str):
-        _log(f"buildInfo received: {build_info!r}")
-        self._build_info = build_info
-        self._update_tray_tooltip(connected=True)  # only ever fires while connected
+    def _activate(self, board_id):
+        """Make the HUD show this board: its keymap, and its last layer."""
+        if board_id == self._active or board_id not in self._boards:
+            return
+        _log(f"active board -> {board_id!r}")
+        self._active = board_id
+        board = self._boards[board_id]
+        self.hud.set_keymap(board["keymap"] or None)
+        self.hud.set_layer(board["layer"])
+        self._update_board_display()
 
-    def _update_tray_tooltip(self, connected: bool):
-        if not connected:
+    def _on_layer(self, board_id, layer):
+        if board_id in self._boards:
+            self._boards[board_id]["layer"] = layer
+        self._activate(board_id)
+        if board_id == self._active:
+            self.hud.set_layer(layer)
+
+    def _on_key(self, board_id, row, col, pressed):
+        self._activate(board_id)
+        if board_id == self._active:
+            self.hud.set_key_state(row, col, pressed)
+
+    def _on_keymap_loaded(self, board_id, keymap):
+        board = self._boards.get(board_id)
+        if board is None:
+            return
+        _log(f"keymap from {board_id!r}: {len(keymap) if keymap else 'none'}")
+        board["keymap"] = keymap or False
+        if board_id == self._active:
+            self.hud.set_keymap(keymap or None)
+            self._update_board_display()
+
+    def _on_build_info(self, board_id, build_info: str):
+        _log(f"buildInfo from {board_id!r}: {build_info!r}")
+        if board_id in self._boards:
+            self._boards[board_id]["build"] = build_info
+            if board_id == self._active:
+                self._update_board_display()
+
+    def _reload_keymaps(self):
+        for board in self._boards.values():
+            board["keymap"] = None
+        if self._active:
+            self.hud.set_keymap(None)
+        self._update_board_display()
+        self.transport.reload_keymaps()
+
+    def _update_board_display(self):
+        """The active board's name in the HUD header and the tray tooltip.
+        A trailing * means its labels are the bundled ones, not the
+        board's own (it hasn't answered yet, or couldn't)."""
+        board = self._boards.get(self._active)
+        if board is None:
+            self.hud.set_board_label("")
             self.tray.setToolTip("Corne HUD -- not connected")
-        elif self._build_info:
-            self.tray.setToolTip(f"Corne HUD -- connected (master built {self._build_info})")
+            return
+        name = f"{board['name']} · {board['bus']}" if board["bus"] else board["name"]
+        star = "" if board["keymap"] else " *"
+        self.hud.set_board_label(name + star)
+        if board["keymap"]:
+            source = "keymap from the keyboard"
+        elif board["keymap"] is None:
+            source = "reading keymap..."
         else:
-            self.tray.setToolTip("Corne HUD -- connected")
+            source = "keymap not available, showing bundled labels"
+        build = f", built {board['build']}" if board["build"] else ""
+        others = len(self._boards) - 1
+        also = f" (+{others} more connected)" if others else ""
+        self.tray.setToolTip(f"Corne HUD -- {name}{build}; {source}{also}")
 
     def _toggle_hud(self):
         pinned = not self._pinned

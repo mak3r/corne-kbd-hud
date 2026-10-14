@@ -11,7 +11,8 @@ The `mak3r` keymap in [`halcyon-corne`](https://github.com/mak3r/halcyon-corne) 
 ```
 firmware (layer_state_set_user / process_record_user)
   -> CONSOLE_ENABLE USB HID interface ("LAYER:<n>\n" / "KEY:<row>,<col>,<0|1>\n" text lines)
-    -> hid_transport.py (background QThread, auto-reconnects)
+    -> hid_transport.py (one background thread per connected keyboard, auto-reconnects,
+       asks each keyboard for its keymap: keymap_fetch.py)
       -> hud_window.py (paints the overlay, draggable, remembers its position)
 ```
 
@@ -39,7 +40,11 @@ python3 -m corne_kbd_hud   # (with src/ on PYTHONPATH, or `pip install -e .` fir
 
 On macOS, `hid` needs the native `hidapi` library — `brew install hidapi` if the import fails. The first time it opens the keyboard's HID interface, macOS may prompt for **Input Monitoring** permission (System Settings → Privacy & Security).
 
-A tray icon appears in the menu bar (a filled teal dot = keyboard connected, a terracotta ring = not) — look at the far right of the menu bar on a wide/multi-monitor setup, since macOS only ever places status icons on the primary display's menu bar. Its menu toggles "Pin HUD Visible" and quits the app. Hover the tray icon to see a tooltip with the firmware build date/time (UTC — the build environment's clock, not necessarily yours) of whichever half is currently the USB-connected split master — useful for spotting a version mismatch between the two physical halves (swap which half is plugged in and hover again to compare).
+A tray icon appears in the menu bar (a filled teal dot = keyboard connected, a terracotta ring = not) — look at the far right of the menu bar on a wide/multi-monitor setup, since macOS only ever places status icons on the primary display's menu bar. Its menu toggles "Pin HUD Visible", re-reads the keyboards' keymaps ("Reload Keymap", e.g. after changing a key in Vial), and quits the app. Hover the tray icon to see which keyboard the HUD is showing, whether its keymap came from the keyboard, and (Halcyon) the firmware build date/time (UTC — the build environment's clock, not necessarily yours) of whichever half is currently the USB-connected split master — useful for spotting a version mismatch between the two physical halves (swap which half is plugged in and hover again to compare).
+
+**Keymaps come from the keyboard.** When it connects, the HUD asks each keyboard for its keymap: the Halcyon through Vial's standard keymap-read request, the Typeractive with a `MAP?` request its firmware answers. So the labels match what's really on the board, including Vial edits (after "Reload Keymap"). Until a board answers, or if its firmware is too old to, the HUD shows the bundled labels and puts a `*` after the board's name. Colors always come from the bundled data.
+
+**Two keyboards at once.** The HUD follows whichever keyboard you last typed on, and shows its name and connection in the header's top-right corner (e.g. `Halcyon · USB`, `Typeractive · BLE`).
 
 The HUD itself:
 - Auto-shows when you leave the base layer and auto-hides ~1.5s after returning to it, unless pinned. The mouse layer (4, which the trackpad turns on automatically) is treated like the base layer, so using the trackpad doesn't flash the HUD up; pin it to see layer 4.
@@ -51,7 +56,7 @@ The HUD itself:
 
 ## Regenerating the keymap/color data
 
-`src/corne_kbd_hud/data/mak3r_layers.json` (keycodes + real per-key colors) is generated from `halcyon-corne`'s own sources, not hand-maintained — this includes colors from the [Corne Palette Editor](PALETTE_EDITOR.md):
+`src/corne_kbd_hud/data/mak3r_layers.json` (keycodes + real per-key colors) is generated from `halcyon-corne`'s own sources, not hand-maintained — this includes colors from the [Corne Palette Editor](PALETTE_EDITOR.md). Its labels are only a fallback now (keyboards send their own keymap), but its colors are always used:
 
 ```bash
 python3 scripts/generate_layout_data.py \
@@ -60,6 +65,12 @@ python3 scripts/generate_layout_data.py \
 ```
 
 Run this after editing the keymap or colors over there, then commit the regenerated JSON here.
+
+`src/corne_kbd_hud/data/qmk_keycodes.json` turns the Halcyon's keycode numbers back into names. QMK renumbers keycodes between versions, so regenerate it from the same vial-qmk checkout the firmware is built from whenever that checkout is updated:
+
+```bash
+python3 scripts/generate_keycode_table.py ~/projects/vial-qmk-build
+```
 
 ## Building and deploying (macOS)
 

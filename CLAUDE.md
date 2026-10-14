@@ -4,7 +4,18 @@ Solo hobby project, sibling repo to [`halcyon-corne`](../halcyon-corne) (the fir
 
 ## Project purpose
 
-A real-time desktop HUD showing the active keymap layer on a Halcyon Corne, reading layer state live off the keyboard over USB HID — not a static keymap viewer. Scoped to the Corne specifically for now (see the user's own framing in the planning conversation: "Currently I'm only concerned with the corne keyboards"). The transport/rendering split is deliberately generic enough that a ZMK board could plug in later without changing the HUD code, and there now is one: `tya-corne` (ZMK, wireless). It needed **no HUD changes**. Its firmware (`src/hud_broadcast.c` there, on top of `zzeneg/zmk-raw-hid`) exposes a raw HID interface with QMK's console usage page/usage (`0xFF31`/`0x74`, 32-byte reports), over USB and BLE. It sends the same `LAYER:`/`KEY:` text lines in the Halcyon's row/col space. Keep that wire format stable, since both firmwares depend on it. Not yet confirmed on hardware, especially over BLE. If both boards are connected at once, `find_console_device_path()` takes whichever enumerates first.
+A real-time desktop HUD showing the active keymap layer on a Halcyon Corne, reading layer state live off the keyboard over USB HID — not a static keymap viewer. Scoped to the Corne specifically for now (see the user's own framing in the planning conversation: "Currently I'm only concerned with the corne keyboards"). The transport/rendering split is deliberately generic enough that a ZMK board could plug in without changing how events are read, and there now is one: `tya-corne` (ZMK, wireless). Its firmware (`src/hud_broadcast.c` there, on top of `zzeneg/zmk-raw-hid`) exposes a raw HID interface with QMK's console usage page/usage (`0xFF31`/`0x74`, 32-byte reports), over USB and BLE. It sends the same `LAYER:`/`KEY:` text lines in the Halcyon's row/col space. Keep that wire format stable, since both firmwares depend on it. Confirmed on hardware over USB and BLE.
+
+## Several boards, and keymaps from the keyboard
+
+- **Every console interface is read.** `HidManager` re-enumerates every 2 s and runs a `BoardReader` thread per interface. A board's id is its HID path, so the Typeractive on USB and Bluetooth at once is two readers. Readers' signals are relayed through `HidManager`, which lives on the main thread, so they arrive there.
+- **The HUD follows whichever board an event last came from** (Mark's choice, 2026-10-14). `app.py` keeps per-board state: name, bus, last layer, build and keymap. The header's right side shows the active board, e.g. `Typeractive · BLE`. A trailing `*` means the labels are the bundled ones, not the board's own. Names come from `FRIENDLY_NAMES` in `hid_transport.py`, keyed on the HID product string.
+- **Each board is asked for its keymap** when its reader opens, and again from the tray's "Reload Keymap". See `keymap_fetch.py`:
+  - **Halcyon:** VIA's standard `id_dynamic_keymap_get_buffer` read (0x12) on Vial's raw HID interface (`0xFF60`/`0x61`, matched to the console interface by VID/PID/serial). No unlock is needed, and it's about 0.1 s for all 8 layers. It reads the live keymap, so Vial edits show up after a reload. This is host-initiated and read-only, so it doesn't conflict with the "don't push unsolicited reports onto Vial's channel" decision below. Because it only runs on open or reload, the remaining risk is small: if the Vial app is mid-request at that moment, one of them could see the other's reply. The reply matching here skips replies that don't echo its own request.
+  - **Typeractive:** the HUD writes `MAP?` to the console interface (an output report). The firmware answers with `MAP:<layer>,<row>,<col>,<keycode>` lines and `MAPEND:<count>`, on whichever transport it's currently sending on. So readers accept `MAP:` lines they didn't ask for. No reply within 10 s means older firmware: the bundled labels stay.
+- **One set of label rules.** Both paths end up as QMK keycode names in `keymap.json`'s spelling, labelled by `keycodes.py` (which `scripts/generate_layout_data.py` also imports). The Halcyon's numbers are turned into names by `keycodes.decode()`, using `data/qmk_keycodes.json`. That file is generated from the vial-qmk checkout by `scripts/generate_keycode_table.py`, because the numbers change between QMK keycode versions; rerun it after updating vial-qmk. `preferred_name()` picks the alias the label rules know (`KC_BSPC` over `KC_BACKSPACE`).
+- **Colors are still the bundled ones** (`rgb_layers.csv` is compiled into the firmware, not readable over HID). `HudWindow.set_keymap()` overlays only `kc`/`label`/`modtap`.
+- Verified on hardware: the Halcyon's live keymap decodes to exactly the bundled labels except the 7 Bluetooth keys, which are `KC_NO` in its firmware and correctly show as `·`.
 
 This repo is desktop tooling, not firmware — that split is intentional, mirroring why `halcyon-corne`'s own CLAUDE.md treats a hypothetical ZMK variant as a separate sibling repo rather than a branch/subfolder. Don't merge this back into `halcyon-corne`.
 
@@ -17,20 +28,22 @@ See `halcyon-corne`'s `CLAUDE.md` ("Desktop HUD layer broadcast" + "Split state 
 ## Architecture
 
 ```
-firmware (halcyon-corne's hud_console.c, layer_state_set_user hook)
-  -> CONSOLE_ENABLE USB HID interface ("LAYER:<n>\n" text lines)
-    -> hid_transport.py: HidTransport(QThread) -- finds the interface by
-       usage_page/usage (not VID/PID, so it doesn't matter which half is
-       master), reconnects automatically, emits layerChanged(int) /
-       connectionChanged(bool) Qt signals
-      -> hud_window.py: HudWindow(QWidget) -- frameless/always-on-top,
-         paints keys from keyboard_layout.py's geometry + mak3r_layers.json's
-         keycodes/colors, auto-hides on the base layer
-      -> app.py: CorneHudApp -- tray icon, wires transport to HUD, owns
-         the QApplication event loop
+firmware (halcyon-corne's hud_console.c / tya-corne's hud_broadcast.c)
+  -> console HID interface ("LAYER:<n>\n", "KEY:...", "MAP:..." text lines)
+    -> hid_transport.py: HidManager(QThread) finds every console interface
+       by usage_page/usage (not VID/PID, so it doesn't matter which half is
+       master) and runs a BoardReader(QThread) per board; each reader also
+       fetches its board's keymap (keymap_fetch.py) and emits signals
+       tagged with its board id
+      -> app.py: CorneHudApp -- tray icon, per-board state, follows the
+         board an event last came from, owns the QApplication event loop
+        -> hud_window.py: HudWindow(QWidget) -- frameless/always-on-top,
+           paints keys from keyboard_layout.py's geometry +
+           mak3r_layers.json's colors (labels from the board when it
+           answered, via keycodes.py), auto-hides on the base layer
 ```
 
-`src/corne_kbd_hud/data/mak3r_layers.json` is **generated**, not hand-edited — see `scripts/generate_layout_data.py` and the README's "Regenerating the keymap/color data" section. It's sourced from `halcyon-corne`'s own `.vil` export and `rgb_layers.csv`, converted with the same logic as that repo's `generate_keymap_from_vil.py`/`generate_ledmap.py` (kept as a separate copy here rather than a shared dependency between repos, since they have different release cadences).
+`src/corne_kbd_hud/data/mak3r_layers.json` is **generated**, not hand-edited — see `scripts/generate_layout_data.py` and the README's "Regenerating the keymap/color data" section. It's sourced from `halcyon-corne`'s `keymap.json` (the layout shared by both boards) and `rgb_layers.csv`; the color logic is a copy of that repo's `generate_ledmap.py` (kept as a separate copy here rather than a shared dependency between repos, since they have different release cadences). Its labels are now only the fallback for a board that can't send its keymap; its colors are always used.
 
 ## macOS focus-stealing fix
 
