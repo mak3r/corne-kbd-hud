@@ -55,7 +55,7 @@ The HUD itself:
 
 ```bash
 python3 scripts/generate_layout_data.py \
-    --vil ~/projects/halcyon/corne-vial/mak3rs.vil \
+    --keymap ~/projects/halcyon-corne/keyboards/splitkb/halcyon/corne/keymaps/mak3r/keymap.json \
     --csv ~/projects/halcyon-corne/keyboards/splitkb/halcyon/corne/keymaps/mak3r/rgb_layers.csv
 ```
 

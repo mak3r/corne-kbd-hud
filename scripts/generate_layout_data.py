@@ -1,14 +1,17 @@
 #!/usr/bin/env python3
 """Regenerate src/corne_kbd_hud/data/mak3r_layers.json from the halcyon-corne
-repo's own sources: a Vial export (.vil) for keycodes/layout, and
-rgb_layers.csv for the real per-key colors. Mirrors the conversion logic
-in halcyon-corne's generate_keymap_from_vil.py / generate_ledmap.py --
+repo's own sources: keymap.json for keycodes/layout, and rgb_layers.csv for
+the real per-key colors. keymap.json is the single layout shared by both
+the Halcyon (QMK) and the Typeractive (ZMK, tya-corne) -- both firmwares
+are generated from it, so the HUD reads the same file. It includes the
+wireless-only keys (OUT_TOG, BT_CLR, BT_SEL_n), which do nothing on the
+Halcyon. Mirrors the color logic in halcyon-corne's generate_ledmap.py --
 kept as a separate copy here rather than a shared dependency, since this
 is a different repo with a different release cadence.
 
 Usage:
     python3 scripts/generate_layout_data.py \\
-        --vil ~/projects/halcyon/corne-vial/mak3rs.vil \\
+        --keymap ~/projects/halcyon-corne/keyboards/splitkb/halcyon/corne/keymaps/mak3r/keymap.json \\
         --csv ~/projects/halcyon-corne/keyboards/splitkb/halcyon/corne/keymaps/mak3r/rgb_layers.csv
 """
 import argparse
@@ -22,7 +25,7 @@ OUT_PATH = HERE.parent / "src" / "corne_kbd_hud" / "data" / "mak3r_layers.json"
 
 LAYER_NAMES = ["Base", "Symbols", "Nav", "Function", "Mouse", "Return2", "Unused", "Unused"]
 
-# --- keycode layout (same derivation as halcyon-corne's generate_keymap_from_vil.py) ---
+# --- keycode layout: (row, col) of keymap.json's first 42 entries per layer ---
 
 COORDS = (
     [(0, c) for c in range(6)]
@@ -54,6 +57,9 @@ RENAMES = {
     # Mouse movement / wheel (layer 4, J/K/L/; and M/,/./slash).
     "MS_LEFT": "Ms←", "MS_DOWN": "Ms↓", "MS_UP": "Ms↑", "MS_RIGHT": "Ms→",
     "MS_WH_LEFT": "Wh←", "MS_WH_DOWN": "Wh↓", "MS_WH_UP": "Wh↑", "MS_WH_RIGHT": "Wh→",
+    # Wireless-only keys in the shared layout (Typeractive; nothing on the Halcyon).
+    "OUT_TOG": "USB/BT", "BT_CLR": "BT Clr",
+    "BT_SEL_0": "BT 0", "BT_SEL_1": "BT 1", "BT_SEL_2": "BT 2", "BT_SEL_3": "BT 3", "BT_SEL_4": "BT 4",
 }
 MOD_SYMS = {
     "LSFT": "⇧", "RSFT": "⇧", "LCTL": "⌃", "RCTL": "⌃",
@@ -73,32 +79,6 @@ SHIFT_SYMBOLS = {
     "LBRC": "{", "RBRC": "}", "BSLS": "|",
     "SCLN": ":", "QUOTE": "\"", "COMMA": "<", "DOT": ">", "SLASH": "?",
 }
-FIXUPS = {
-    "KC_LSHIFT": "KC_LSFT", "KC_RSHIFT": "KC_RSFT", "KC_BSPACE": "KC_BSPC",
-    "KC_SCOLON": "KC_SCLN", "KC_LBRACKET": "KC_LBRC", "KC_RBRACKET": "KC_RBRC",
-    "KC_BSLASH": "KC_BSLS", "KC_PGDOWN": "KC_PGDN", "KC_PSCREEN": "KC_PSCR",
-}
-ALIAS_RE = re.compile(r"\b(" + "|".join(FIXUPS) + r")\b")
-
-
-def fix(kc):
-    return ALIAS_RE.sub(lambda m: FIXUPS[m.group(1)], kc)
-
-
-def flatten42(grid):
-    out = []
-    out += grid[0][0:6]
-    out += list(reversed(grid[5]))
-    out += grid[1][0:6]
-    out += list(reversed(grid[6]))
-    out += grid[2][0:6]
-    out += list(reversed(grid[7]))
-    out += grid[3][3:6]
-    out += list(reversed(grid[8]))[0:3]
-    assert len(out) == 42
-    return [fix(v) for v in out]
-
-
 def plain_kc_label(inner):
     if inner in RENAMES:
         return RENAMES[inner]
@@ -120,7 +100,7 @@ def short_label(kc):
         return f"{sym}{plain_kc_label(inner)}"
     if kc.startswith("KC_"):
         return plain_kc_label(kc[3:])
-    if kc.startswith("MS_"):
+    if kc.startswith("MS_") or kc in RENAMES:
         return plain_kc_label(kc)
     if kc == "QK_BOOT":
         return "Boot"
@@ -179,19 +159,19 @@ def resolve_colors(csv_path):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--vil", type=Path, required=True)
+    parser.add_argument("--keymap", type=Path, required=True)
     parser.add_argument("--csv", type=Path, required=True)
     args = parser.parse_args()
 
-    vil = json.loads(args.vil.read_text())
-    layers = vil["layout"]
+    text = re.sub(r"^\s*//.*$", "", args.keymap.read_text(), flags=re.M)  # keymap.json has // comments
+    layers = json.loads(text)["layers"]
     assert len(layers) == 8
 
     colors = resolve_colors(args.csv)
 
     out_layers = []
     for i, layer in enumerate(layers):
-        flat = flatten42(layer)
+        flat = layer[:42]  # keymap.json's first 42 entries are in COORDS order
         keys = []
         for (r, c), kc in zip(COORDS, flat):
             mt = modtap_label(kc)
